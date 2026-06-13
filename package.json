@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@distube/ytdl-core": "^4.15.4",
-    "@sasmeee/igdl": "^1.0.0",
+    "@sasmeee/igdl": "latest",
     "@tobyg74/tiktok-api-dl": "^1.3.7",
     "@totallynotdavid/downloader": "^1.0.2",
     "@vookav2/play-dl": "^1.9.9",
