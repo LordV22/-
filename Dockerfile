@@ -1,24 +1,30 @@
 FROM node:23-alpine
 
-# ആവശ്യമായ എല്ലാ ടൂളുകളും ഇൻസ്റ്റാൾ ചെയ്യുന്നു (ffmpeg, python3, yt-dlp)
+# ആവശ്യമായ എല്ലാ ടൂളുകളും കറക്റ്റ് ആയി ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 RUN apk add --no-cache \
     python3 \
     py3-pip \
     ffmpeg \
     curl \
-    build-base
+    build-base \
+    cairo-dev \
+    pango-dev \
+    jpeg-dev \
+    giflib-dev \
+    pixman-dev \
+    pkgconfig \
+    g++ \
+    make
 
 # yt-dlp ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 RUN pip3 install yt-dlp --break-system-packages
 
 WORKDIR /home/container
 
-# പാക്കേജുകൾ ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 COPY package*.json ./
-RUN npm install
+# canvas കംപൈൽ ചെയ്യാൻ ആവശ്യമായ ടൂളുകൾ അവിടെയുണ്ട്
+RUN npm install --build-from-source
 
-# ബാക്കി കോഡുകൾ കോപ്പി ചെയ്യുന്നു
 COPY . .
 
-# ബോട്ട് സ്റ്റാർട്ട് ചെയ്യുന്നു
 CMD ["node", "index.js"]
