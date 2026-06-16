@@ -25,6 +25,11 @@ module.exports = {
             // 1. മീഡിയ ഡൗൺലോഡ് ചെയ്യുന്നു
             const mediaBuffer = await downloadMediaMessage({ message: quoted }, "buffer", {}, {});
             if (!mediaBuffer) throw new Error("Failed to download media buffer from WhatsApp.");
+            console.log(
+    "BUFFER SIZE:",
+    (mediaBuffer.length / 1024 / 1024).toFixed(2),
+    "MB"
+);
 
             // 2. Catbox-ലേക്ക് അപ്‌ലോഡ് ചെയ്യുന്നു
             const form = new FormData();
@@ -38,8 +43,10 @@ module.exports = {
 
             const mediaUrl = await uploadRes.text();
 
-            if (!mediaUrl.startsWith("http")) throw new Error(`Audio upload failed.`);
+console.log("CATBOX RESPONSE:", mediaUrl);
 
+if (!mediaUrl.startsWith("http"))
+    throw new Error(`Audio upload failed: ${mediaUrl}`);
             // 3. API വഴി പാട്ട് കണ്ടുപിടിക്കുന്നു (നേരിട്ട് നൽകിയ ലിങ്ക്)
             const apiUrl = `https://jerrycoder.oggyapi.workers.dev/tool/identify?url=${encodeURIComponent(mediaUrl)}`;
             
