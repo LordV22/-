@@ -88,32 +88,6 @@ fs.writeFileSync(
 );
     }
 
-    const { state, saveCreds } = await useMultiFileAuthState("./session");
-    const { version } = await fetchLatestBaileysVersion();
-    sock.ev.on("call", async (calls) => {
-
-    if (!global.callReject) return;
-
-    for (const call of calls) {
-
-        try {
-            await sock.rejectCall(
-                call.id,
-                call.from
-            );
-
-            await sock.sendMessage(
-                call.from,
-                {
-                    text: "📵 Calls are disabled. Send a message instead."
-                }
-            );
-
-        } catch (e) {
-            console.log(e);
-        }
-    }
-});
 
     const sock = makeWASocket({
         version,
@@ -533,9 +507,9 @@ if (
         );
     }
 }
-            msg.message.conversation ||
-            msg.message.extendedTextMessage?.text ||
-            "";
+           
+           
+          
 
             const quotedId =
 msg.message?.extendedTextMessage
@@ -578,7 +552,6 @@ State: ${enabled ? "ON" : "OFF"}`
     return;
 }
         const prefix = process.env.PREFIX || ".";
-        const isGroup = jid.endsWith("@g.us");
 // ===== AUTO DL =====
 
 global.autoDlChats = global.autoDlChats || [];
