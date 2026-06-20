@@ -2,7 +2,7 @@ module.exports = [
 
 {
     name: "warn",
-    category: "owner",
+    category: "group",
 
     async execute(sock, msg, args) {
 
@@ -63,7 +63,7 @@ ${reason}`,
 
 {
     name:"warnings",
-    category:"owner",
+    category:"group",
 
     async execute(sock,msg){
 
@@ -97,7 +97,7 @@ mentions:[target]
 
 {
     name:"rmwarn",
-    category:"owner",
+    category:"group",
 
     async execute(sock,msg){
 
@@ -125,7 +125,7 @@ mentions:[target]
 
 {
     name:"resetwarn",
-    category:"owner",
+    category:"group",
 
     async execute(sock,msg){
 
@@ -149,7 +149,7 @@ mentions:[target]
 
 {
     name:"setwarnlimit",
-    category:"owner",
+    category:"group",
 
     async execute(sock,msg,args){
 

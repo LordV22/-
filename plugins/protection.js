@@ -1,7 +1,7 @@
 module.exports = {
     name: "protection",
     alias: ["protect"],
-    category: "owner",
+    category: "group",
 
     async execute(sock, msg, args) {
 

@@ -2,7 +2,7 @@ const fs = require("fs");
 
 module.exports = {
     name: "pp",
-    category: "owner",
+    category: "group",
 
     async execute(sock,msg,args,isOwner){
 

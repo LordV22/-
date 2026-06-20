@@ -1,7 +1,7 @@
 module.exports = {
     name: 'clear',
     alias: ['clearchat'],
-    category: 'owner',
+    category: 'group',
     description: 'Clear chats for groups, DMs, or current chat',
     usage: '.clear | .clearchat <dms/grp/all>',
 
