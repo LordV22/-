@@ -73,6 +73,7 @@ global.sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 http.createServer((req, res) => res.end('KIRA-X-MD Online')).listen(process.env.PORT || 3000);
 
 async function startKira() {
+    console.log("STARTKIRA CALLED");
     if (process.env.SESSION_ID && !fs.existsSync("./session/creds.json")) {
         console.log("🔄 Loading session from SESSION_ID...");
         if (!fs.existsSync("./session")) fs.mkdirSync("./session");
@@ -90,6 +91,7 @@ fs.writeFileSync(
 const { state, saveCreds } = await useMultiFileAuthState("./session");
 const { version } = await fetchLatestBaileysVersion();
 
+    console.log("SOCKET CREATED");
     const sock = makeWASocket({
         version,
         logger: P({ level: "fatal" }),
@@ -129,7 +131,7 @@ const { version } = await fetchLatestBaileysVersion();
         }
     }
 });
-
+console.log("CONNECTION UPDATE:", update);
 sock.ev.on("connection.update", async (update) => {
     const { connection, lastDisconnect } = update;
 
