@@ -97,7 +97,12 @@ const { version } = await fetchLatestBaileysVersion();
         version,
         logger: P({ level: "fatal" }),
         auth: state,
-        printQRInTerminal: true 
+        printQRInTerminal: false,
+        browser: [
+    "Ubuntu",
+    "Chrome",
+    "20.0.04"
+]
     });
 
     if (
@@ -106,10 +111,30 @@ const { version } = await fetchLatestBaileysVersion();
 ) {
         const phoneNumber = process.env.BOT_NUMBER;
         if (phoneNumber) {
-            setTimeout(async () => {
-                let code = await sock.requestPairingCode(phoneNumber.replace(/[^0-9]/g, ''));
-                console.log("\n🔑 *YOUR PAIRING CODE:* " + code + "\n");
-            }, 3000);
+            sock.ev.on("connection.update", async ({ connection }) => {
+    if (
+        connection === "connecting" &&
+        !sock.authState.creds.registered
+    ) {
+        try {
+            const code =
+                await sock.requestPairingCode(
+                    phoneNumber.replace(/[^0-9]/g, "")
+                );
+
+            console.log(
+                "\n🔑 YOUR PAIRING CODE:",
+                code,
+                "\n"
+            );
+        } catch (err) {
+            console.log(
+                "PAIR ERROR:",
+                err
+            );
+        }
+    }
+});
         }
     }
 
