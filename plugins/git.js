@@ -20,7 +20,7 @@ module.exports = {
 🔗 https://chat.whatsapp.com/C3hbXjblNLiF7CoDYJ8lwY
 
 ━━━━━━━━━━━━━━━━━━━━
-✨ *KIRA X MD* | _Powered by Gopakumar_
+✨ *KIRA X MD* | _Powered by KIRA X MD_
 ⭐ *Don't forget to Star & Fork!*
 🚀 *Keep coding, keep evolving.*
 ━━━━━━━━━━━━━━━━━━━━
