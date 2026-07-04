@@ -15,6 +15,14 @@ loadPlugins();
 global.commands = commands;
 
 // ─── GLOBALS ──────────────────────────────────────────────
+global.callReject = false;
+global.botOnline = true;
+global.autoRead = false;
+global.withoutHandler = false;
+global.autoReact = false;
+global.autoReply = false;
+global.autoVV = false;
+global.autoSticker = false;
 global.antiWordChats = [];
 global.badWords = [];
 global.antiBotChats = [];
@@ -293,7 +301,10 @@ async function startKira() {
             }
 
             // ── BOT ONLINE CHECK ──
-            if (!global.botOnline) return;
+            if (
+    !global.botOnline &&
+    !isOwnerOrSudo
+) return;
 
             // ── PRESENCE ──
             if (global.botOnline) {
@@ -330,6 +341,9 @@ async function startKira() {
                         break;
                     case "8": global.callReject = value; break;
                     case "9": global.botOnline = value; break;
+                    case "15":
+    global.withoutHandler = value;
+    break;
                     default: return;
                 }
                 return await sock.sendMessage(jid, {
@@ -365,9 +379,20 @@ async function startKira() {
 
             // ── COMMAND HANDLER ──
             const prefix = process.env.PREFIX || ".";
-            if (!text.startsWith(prefix)) return;
 
-            const args = text.slice(prefix.length).trim().split(/ +/);
+let args;
+
+if (text.startsWith(prefix)) {
+    // .menu
+    args = text.slice(prefix.length).trim().split(/ +/);
+} else if (global.withoutHandler) {
+    // menu
+    args = text.trim().split(/ +/);
+} else {
+    return;
+}
+
+const commandName = args.shift().toLowerCase();
             const commandName = args.shift().toLowerCase();
             const command = commands.find(cmd =>
                 cmd.name === commandName || (cmd.alias && cmd.alias.includes(commandName))

@@ -56,12 +56,34 @@ module.exports = {
                 }
             });
 
-            const api =
-                `https://api-aswin-sparky.koyeb.app/api/downloader/igdl?url=${encodeURIComponent(url)}`;
+            const apis = [
+    `https://api-aswin-sparky.koyeb.app/api/downloader/igdl?url=${encodeURIComponent(url)}`,
+    `https://jerrycoder.oggyapi.workers.dev/down/insta-v2?url=${encodeURIComponent(url)}`,
+    `https://jerrycoder.oggyapi.workers.dev/down/insta-v1?url=${encodeURIComponent(url)}`,
+    `https://jerrycoder.oggyapi.workers.dev/down/insta?url=${encodeURIComponent(url)}`
+];
 
-            const { data } = await axios.get(api, {
-                timeout: 20000
-            });
+let data = null;
+
+for (const api of apis) {
+    try {
+        const res = await axios.get(api, {
+            timeout: 20000
+        });
+
+        if (res.data) {
+            data = res.data;
+            console.log("INSTA API SUCCESS:", api);
+            break;
+        }
+    } catch (e) {
+        console.log("INSTA API FAILED:", api);
+    }
+}
+
+if (!data) {
+    throw new Error("All Instagram APIs failed");
+}
 
             console.log(JSON.stringify(data, null, 2));
             console.log("INSTA RESPONSE:", data);

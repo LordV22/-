@@ -32,6 +32,7 @@ module.exports = {
 12. Auto Reply     : ${global.autoReply ? "ON" : "OFF"}
 13. Auto VV        : ${global.autoVV ? "ON" : "OFF"}
 14. Auto Sticker   : ${global.autoSticker ? "ON" : "OFF"}
+15. Without Handler : ${global.withoutHandler ? "ON" : "OFF"}
 
 📌 Reply to this message
 
