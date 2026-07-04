@@ -392,7 +392,7 @@ if (text.startsWith(prefix)) {
     return;
 }
 
-const commandName = args.shift().toLowerCase();
+
             const commandName = args.shift().toLowerCase();
             const command = commands.find(cmd =>
                 cmd.name === commandName || (cmd.alias && cmd.alias.includes(commandName))
