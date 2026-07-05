@@ -9,7 +9,6 @@ module.exports = {
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
 
-        // URL from command
         let url = (args || []).join(" ").trim();
 
         // Reply support
@@ -57,60 +56,123 @@ module.exports = {
             });
 
             const apis = [
-    `https://api-aswin-sparky.koyeb.app/api/downloader/igdl?url=${encodeURIComponent(url)}`,
-    `https://jerrycoder.oggyapi.workers.dev/down/insta-v2?url=${encodeURIComponent(url)}`,
-    `https://jerrycoder.oggyapi.workers.dev/down/insta-v1?url=${encodeURIComponent(url)}`,
-    `https://jerrycoder.oggyapi.workers.dev/down/insta?url=${encodeURIComponent(url)}`
-];
+                `https://api-aswin-sparky.koyeb.app/api/downloader/igdl?url=${encodeURIComponent(url)}`,
+                `https://jerrycoder.oggyapi.workers.dev/down/insta-v2?url=${encodeURIComponent(url)}`,
+                `https://jerrycoder.oggyapi.workers.dev/down/insta-v1?url=${encodeURIComponent(url)}`,
+                `https://jerrycoder.oggyapi.workers.dev/down/insta?url=${encodeURIComponent(url)}`
+            ];
 
-let data = null;
+            let data = null;
 
-for (const api of apis) {
-    try {
-        const res = await axios.get(api, {
-            timeout: 20000
-        });
+            for (const api of apis) {
+                try {
+                    const res = await axios.get(api, {
+                        timeout: 20000
+                    });
 
-        if (res.data) {
-            data = res.data;
-            console.log("INSTA API SUCCESS:", api);
-            break;
-        }
-    } catch (e) {
-        console.log("INSTA API FAILED:", api);
-    }
-}
+                    const d = res.data;
 
-if (!data) {
-    throw new Error("All Instagram APIs failed");
-}
+                    console.log(
+                        "INSTA API:",
+                        api,
+                        JSON.stringify(d)
+                    );
 
-            console.log(JSON.stringify(data, null, 2));
-            console.log("INSTA RESPONSE:", data);
+                    const hasMedia =
+                        (Array.isArray(d?.data) &&
+                            d.data.length > 0) ||
+                        (Array.isArray(d?.result) &&
+                            d.result.length > 0) ||
+                        d?.url ||
+                        d?.video ||
+                        d?.data?.url;
 
-            
+                    if (hasMedia) {
+                        data = d;
+                        console.log(
+                            "INSTA API SUCCESS:",
+                            api
+                        );
+                        break;
+                    }
+                } catch (e) {
+                    console.log(
+                        "INSTA API FAILED:",
+                        api
+                    );
+                }
+            }
 
-            const items = data?.data || [];
+            if (!data) {
+                throw new Error(
+                    "All Instagram APIs failed"
+                );
+            }
+
+            const postCaption =
+                data?.caption ||
+                data?.result?.caption ||
+                data?.data?.caption ||
+                "";
+
+            let items = [];
+
+            if (Array.isArray(data?.data)) {
+                items = data.data;
+            } else if (
+                Array.isArray(data?.result)
+            ) {
+                items = data.result;
+            } else if (
+                data?.url ||
+                data?.video
+            ) {
+                items = [
+                    {
+                        type: "video",
+                        url:
+                            data.url ||
+                            data.video
+                    }
+                ];
+            }
 
             if (!items.length) {
-                throw new Error("No media found");
+                throw new Error(
+                    "No media found"
+                );
             }
 
             for (const item of items) {
-                const media = item.url;
-                const type = item.type || "video";
+                const media =
+                    item.url ||
+                    item.video ||
+                    item.download;
 
                 if (!media) continue;
 
-                if (type.toLowerCase() === "image") {
+                const type =
+                    item.type ||
+                    (media.includes(".mp4")
+                        ? "video"
+                        : "image");
+
+                const caption =
+`${postCaption}
+
+> *Downloaded by KIRA X MD*`;
+
+                if (
+                    type.toLowerCase() ===
+                    "image"
+                ) {
                     await sock.sendMessage(
                         jid,
                         {
-                            image: { url: media },
-                            caption:
-`${postCaption}
-
-> *Downloaded by KIRA X MD*`
+                            image: {
+                                url: media
+                            },
+                            caption
                         },
                         { quoted: msg }
                     );
@@ -118,11 +180,10 @@ if (!data) {
                     await sock.sendMessage(
                         jid,
                         {
-                            video: { url: media },
-                           caption:
-`${postCaption}
-
-> *Downloaded by KIRA X MD*`
+                            video: {
+                                url: media
+                            },
+                            caption
                         },
                         { quoted: msg }
                     );
@@ -137,12 +198,16 @@ if (!data) {
             });
 
         } catch (err) {
-            console.log("INSTA ERROR:", err.message);
+            console.log(
+                "INSTA ERROR:",
+                err
+            );
 
             await sock.sendMessage(
                 jid,
                 {
-                    text: "❌ Download Failed"
+                    text:
+                        "❌ Download Failed"
                 },
                 { quoted: msg }
             );

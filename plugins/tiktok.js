@@ -7,19 +7,43 @@ module.exports = {
 
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
-        const url = args.join(" ").trim();
+        let url = (args || []).join(" ").trim();
 
-        if (!url) {
-            return sock.sendMessage(
-                jid,
-                {
-                    text:
-                        "❌ Example:\n.tiktok https://vt.tiktok.com/xxxxx"
-                },
-                { quoted: msg }
-            );
-        }
+// Reply support
+const context =
+    msg.message?.extendedTextMessage?.contextInfo ||
+    msg.message?.ephemeralMessage?.message?.extendedTextMessage?.contextInfo ||
+    msg.message?.viewOnceMessage?.message?.extendedTextMessage?.contextInfo;
 
+const quoted = context?.quotedMessage;
+
+if (!url && quoted) {
+    const text =
+        quoted.conversation ||
+        quoted.extendedTextMessage?.text ||
+        quoted.imageMessage?.caption ||
+        quoted.videoMessage?.caption ||
+        quoted.documentMessage?.caption ||
+        "";
+
+    const match =
+        text.match(/https?:\/\/[^\s]+/i);
+
+    if (match) {
+        url = match[0];
+    }
+}
+
+       if (!url || !url.startsWith("http")) {
+    return sock.sendMessage(
+        jid,
+        {
+            text:
+                "❌ Example:\n.tt https://vt.tiktok.com/xxxxx\n\nor reply to a TikTok link with .tt"
+        },
+        { quoted: msg }
+    );
+}
         try {
             await sock.sendMessage(jid, {
                 react: {
@@ -28,26 +52,60 @@ module.exports = {
                 }
             });
 
-            const api =
-                `https://api-aswin-sparky.koyeb.app/api/downloader/tiktok?url=${encodeURIComponent(url)}`;
+            const apis = [
+                `https://api-aswin-sparky.koyeb.app/api/downloader/tiktok?url=${encodeURIComponent(url)}`,
+                `https://jerrycoder.oggyapi.workers.dev/down/tiktok?url=${encodeURIComponent(url)}`,
+                `https://jerrycoder.oggyapi.workers.dev/down/tiktok-v1?url=${encodeURIComponent(url)}`
+            ];
 
-            const { data } =
-                await axios.get(api);
-const postCaption =
-    data?.result?.title ||
-    data?.result?.caption ||
-    data?.data?.title ||
-    data?.data?.caption ||
-    data?.title ||
-    "🎵 TikTok Downloader";
+            let data = null;
+
+            for (const api of apis) {
+                try {
+                    const res = await axios.get(api, {
+                        timeout: 20000
+                    });
+
+                    if (res.data) {
+                        data = res.data;
+                        console.log("TIKTOK API SUCCESS:", api);
+                        break;
+                    }
+                } catch (e) {
+                    console.log("TIKTOK API FAILED:", api);
+                }
+            }
+
+            if (!data) {
+                throw new Error("All APIs failed");
+            }
+
+            console.log(JSON.stringify(data, null, 2));
+
+            const postCaption =
+                data?.result?.title ||
+                data?.result?.caption ||
+                data?.result?.desc ||
+                data?.data?.title ||
+                data?.data?.caption ||
+                data?.data?.desc ||
+                data?.title ||
+                data?.caption ||
+                "🎵 TikTok Downloader";
 
             const video =
                 data?.result?.video ||
+                data?.result?.download ||
+                data?.result?.url ||
                 data?.data?.video ||
-                data?.video;
+                data?.data?.download ||
+                data?.data?.url ||
+                data?.video ||
+                data?.url;
 
-            if (!video)
-                throw new Error("No video");
+            if (!video) {
+                throw new Error("No video found");
+            }
 
             await sock.sendMessage(
                 jid,
@@ -55,8 +113,7 @@ const postCaption =
                     video: {
                         url: video
                     },
-                    caption:
-                        `${postCaption}
+                    caption: `${postCaption}
 
 > *Downloaded by KIRA X MD*`
                 },
@@ -71,16 +128,22 @@ const postCaption =
             });
 
         } catch (e) {
-            console.log(e);
+            console.log("TIKTOK ERROR:", e);
 
             await sock.sendMessage(
                 jid,
                 {
-                    text:
-                        "❌ Download Failed"
+                    text: "❌ Download Failed"
                 },
                 { quoted: msg }
             );
+
+            await sock.sendMessage(jid, {
+                react: {
+                    text: "❌",
+                    key: msg.key
+                }
+            });
         }
     }
 };

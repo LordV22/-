@@ -162,173 +162,123 @@ global.autoDlAllDms
     }
 };
 
-async function handleAutoDownload(
-    text,
-    sock,
-    msg
-) {
+async function handleAutoDownload(text, sock, msg) {
     try {
-        const jid =
-            msg.key.remoteJid;
-
-        const isGroup =
-            jid.endsWith("@g.us");
-
-        const commands =
-            global.commands || [];
+        const jid = msg.key.remoteJid;
+        const isGroup = jid.endsWith("@g.us");
+        const commands = global.commands || [];
 
         const enabled =
-            global.autoDlChats?.includes(
-                jid
-            ) ||
-            (
-                global.autoDlAllGroups &&
-                isGroup
-            ) ||
-            (
-                global.autoDlAllDms &&
-                !isGroup
-            );
+            global.autoDlChats?.includes(jid) ||
+            (global.autoDlAllGroups && isGroup) ||
+            (global.autoDlAllDms && !isGroup);
 
-        if (
-            !enabled ||
-            !text
-        ) {
+        console.log("========== AUTO DL ==========");
+        console.log("TEXT:", text);
+        console.log("CHAT:", jid);
+        console.log("ENABLED:", enabled);
+
+        if (!enabled || !text) {
+            console.log("AUTO DL SKIPPED");
             return false;
         }
 
-        const url =
-            text.trim();
+        const url = text.trim();
 
-        console.log(
-            "🔍 AUTO DL:",
-            url
-        );
+        console.log("URL:", url);
 
         // Instagram
-        if (
-            /instagram\.com/i.test(
-                url
-            )
-        ) {
-            const cmd =
-                commands.find(
-                    c =>
-                        c.name ===
-                        "insta"
-                );
+        if (/instagram\.com/i.test(url)) {
+            console.log("INSTAGRAM DETECTED");
+
+            const cmd = commands.find(
+                c => c.name === "insta"
+            );
+
+            console.log("CMD:", !!cmd);
 
             if (cmd) {
-                await cmd.execute(
-                    sock,
-                    msg,
-                    [url]
-                );
-
+                await cmd.execute(sock, msg, [url]);
                 return true;
             }
         }
 
         // Facebook
-        if (
-            /facebook\.com|fb\.watch/i
-            .test(url)
-        ) {
-            const cmd =
-                commands.find(
-                    c =>
-                        c.name ===
-                        "fb"
-                );
+        if (/facebook\.com|fb\.watch/i.test(url)) {
+            console.log("FACEBOOK DETECTED");
+
+            const cmd = commands.find(
+                c => c.name === "fb"
+            );
+
+            console.log("CMD:", !!cmd);
 
             if (cmd) {
-                await cmd.execute(
-                    sock,
-                    msg,
-                    [url]
-                );
-
+                await cmd.execute(sock, msg, [url]);
                 return true;
             }
         }
 
         // YouTube
-        if (
-            /youtube\.com|youtu\.be/i
-            .test(url)
-        ) {
-            const cmd =
-                commands.find(
-                    c =>
-                        c.name ===
-                        "ytv"
-                );
+        if (/youtube\.com|youtu\.be/i.test(url)) {
+            console.log("YOUTUBE DETECTED");
+
+            const cmd = commands.find(
+                c => c.name === "ytv"
+            );
+
+            console.log("CMD:", !!cmd);
 
             if (cmd) {
-                await cmd.execute(
-                    sock,
-                    msg,
-                    [url]
-                );
-
+                await cmd.execute(sock, msg, [url]);
                 return true;
             }
         }
 
         // TikTok
-        if (
-            /tiktok\.com|vt\.tiktok|vm\.tiktok/i
-            .test(url)
-        ) {
-            const cmd =
-                commands.find(
-                    c =>
-                        c.name ===
-                        "tiktok"
-                );
+if (
+    /https?:\/\/(?:www\.|m\.|vm\.|vt\.)?tiktok\.com/i.test(url)
+) {
+    console.log("TIKTOK DETECTED:", url);
 
-            if (cmd) {
-                await cmd.execute(
-                    sock,
-                    msg,
-                    [url]
-                );
+    const cmd = commands.find(
+        c => c.name === "tiktok"
+    );
 
-                return true;
-            }
-        }
+    console.log("CMD FOUND:", !!cmd);
 
+    if (cmd) {
+        await cmd.execute(
+            sock,
+            msg,
+            [url]
+        );
+
+        return true;
+    }
+}
         // Twitter / X
-        if (
-            /twitter\.com|x\.com/i
-            .test(url)
-        ) {
-            const cmd =
-                commands.find(
-                    c =>
-                        c.name ===
-                        "twitter"
-                );
+        if (/twitter\.com|x\.com/i.test(url)) {
+            console.log("TWITTER DETECTED");
+
+            const cmd = commands.find(
+                c => c.name === "twitter"
+            );
+
+            console.log("CMD:", !!cmd);
 
             if (cmd) {
-                await cmd.execute(
-                    sock,
-                    msg,
-                    [url]
-                );
-
+                await cmd.execute(sock, msg, [url]);
                 return true;
             }
         }
+
+        console.log("NO MATCH");
 
         return false;
 
     } catch (err) {
-        console.log(
-            "AUTO DL ERROR:",
-            err
-        );
-
+        console.log("AUTO DL ERROR:", err);
         return false;
     }
 }
