@@ -40,8 +40,7 @@ module.exports = {
             return sock.sendMessage(
                 jid,
                 {
-                    text:
-                        "❌ Example:\n.insta https://instagram.com/reel/xxxxx\n\nor reply to an Instagram link with .insta"
+                      text: "❌ Example: .insta <insta link>"
                 },
                 { quoted: msg }
             );

@@ -4,28 +4,39 @@ module.exports = {
     name: "ytv",
     alias: ["yt", "youtube"],
     category: "downloader",
+    description: "Download YouTube video (MP4)",
+    usage: `${process.env.PREFIX || '.'}ytv <url> (or reply to a YouTube link)`,
 
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
-        const url = args.join(" ").trim();
+
+        // ─── Get URL from args or reply ───
+        let url = args.join(" ").trim();
 
         if (!url) {
-            return sock.sendMessage(
-                jid,
-                {
-                    text:
-                        "❌ Example:\n.ytv <youtube url>"
-                },
-                { quoted: msg }
-            );
+            // Check if replying to a message
+            const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+            if (quoted) {
+                const quotedText =
+                    quoted.conversation ||
+                    quoted.extendedTextMessage?.text ||
+                    quoted.imageMessage?.caption ||
+                    quoted.videoMessage?.caption ||
+                    "";
+                const match = quotedText.match(/https?:\/\/[^\s]+/);
+                if (match) url = match[0];
+            }
+        }
+
+        if (!url || !url.includes("youtu")) {
+            return sock.sendMessage(jid, {
+                text: `❌ *Missing YouTube URL*\n\n➤ ${process.env.PREFIX || '.'}ytv <url>\n➤ Or reply to a message containing a YouTube link.`
+            }, { quoted: msg });
         }
 
         try {
             await sock.sendMessage(jid, {
-                react: {
-                    text: "⏳",
-                    key: msg.key
-                }
+                react: { text: "⏳", key: msg.key }
             });
 
             const apis = [
@@ -34,67 +45,50 @@ module.exports = {
             ];
 
             let video = null;
+            let title = "YouTube Video";
 
             for (const api of apis) {
                 try {
-                    const { data } =
-                        await axios.get(api);
-
+                    const { data } = await axios.get(api, { timeout: 15000 });
                     video =
-
                         data?.data?.dl ||
                         data?.data?.url ||
                         data?.result?.url ||
                         data?.result?.video ||
-                        data?.url;
+                        data?.url ||
+                        data?.download;
 
                     title =
-    data?.data?.title ||
-    data?.result?.title ||
-    data?.title ||
-    title;
+                        data?.data?.title ||
+                        data?.result?.title ||
+                        data?.title ||
+                        title;
 
-                    if (video)
-                        break;
-
-                } catch {}
+                    if (video) break;
+                } catch (e) {
+                    console.log("API failed:", api);
+                }
             }
 
-            if (!video)
-                throw new Error();
-
-            await sock.sendMessage(
-                jid,
-                {
-                    video: {
-                        url: video
-                    },
-                    caption:
-`${title}
-
-> *Downloaded by KIRA X MD*`
-                },
-                { quoted: msg }
-            );
+            if (!video) throw new Error("No video URL found");
 
             await sock.sendMessage(jid, {
-                react: {
-                    text: "✅",
-                    key: msg.key
-                }
+                video: { url: video },
+                caption: `${title}\n\n> *Downloaded by KIRA X MD*`
+            }, { quoted: msg });
+
+            await sock.sendMessage(jid, {
+                react: { text: "✅", key: msg.key }
             });
 
-        } catch (e) {
-            console.log(e);
-
-            await sock.sendMessage(
-                jid,
-                {
-                    text:
-                        "❌ Download Failed"
-                },
-                { quoted: msg }
-            );
+        } catch (err) {
+            console.error("YTV error:", err);
+            await sock.sendMessage(jid, {
+                text: `❌ *Download Failed*\n\n${err.message || "Please try again later."}`
+            }, { quoted: msg });
+            await sock.sendMessage(jid, {
+                react: { text: "❌", key: msg.key }
+            });
         }
     }
 };

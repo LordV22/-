@@ -1,129 +1,104 @@
-const Genius = require('genius-lyrics');
-const axios = require('axios'); 
+// plugins/lyrics.js – KIRA X MD (JerryCoder API only)
+const axios = require('axios');
+
+const WATERMARK = `\n\n──────────────\n> *KIRA X MD*`;
 
 module.exports = {
     name: 'lyrics',
     alias: ['lyric', 'songlyrics'],
     category: 'search',
     description: 'Get lyrics for a song',
-    usage: '.lyrics <song name>', // .env ഒഴിവാക്കി
+    usage: `${process.env.PREFIX || '.'}lyrics <song name>`,
 
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
         const query = (args && Array.isArray(args) ? args.join(' ') : '').trim();
 
         if (!query) {
-            return await sock.sendMessage(jid, { 
-                text: `╭──『 🎤 *KIRA LYRICS* 』──⊷\n│ ❌ *Song name missing*\n╰──────────────⊷` 
+            await sock.sendMessage(jid, {
+                text: `🎤 *LYRICS*\n\n❌ *Missing song name*\n➤ Example: ${process.env.PREFIX || '.'}lyrics Jhol Maanu`
             }, { quoted: msg });
+            return;
         }
 
         await sock.sendMessage(jid, { react: { text: "🎤", key: msg.key } });
-        const statusMsg = await sock.sendMessage(jid, { text: `🔍 *Searching for:* ${query}...` });
+        const statusMsg = await sock.sendMessage(jid, { text: `🔍 *Searching lyrics for:* "${query}"...` });
 
         try {
-            let songTitle = query;
-            let songArtist = "Unknown";
-            let songLyrics = "";
-            let success = false;
+            let result = null;
 
-            const restApis = [
-                `https://jerrycoder.oggyapi.workers.dev/search/lyrics-v1?q=${encodeURIComponent(query)}`,
-                `https://jerrycoder.oggyapi.workers.dev/search/lyrics-v2?q=${encodeURIComponent(query)}`,
-                `https://eliteprotech-apis.zone.id/lyrics?query=${encodeURIComponent(query)}`,
-                `https://some-random-api.com/lyrics?title=${encodeURIComponent(query)}`,
-                `https://api.popcat.xyz/lyrics?song=${encodeURIComponent(query)}`
-            ];
-
-            for (let i = 0; i < restApis.length; i++) {
-                try {
-                    // Railway Timeout 15s
-                    const res = await axios.get(restApis[i], { timeout: 15000 });
-                    const data = res.data;
-
-                    let extractedLyrics = '';
-                    let extractedTitle = '';
-                    let extractedArtist = '';
-
-                    if (data.result && data.result.lyrics) {
-                        extractedLyrics = data.result.lyrics;
-                        extractedTitle = data.result.title;
-                        extractedArtist = data.result.artist;
-                    } else if (data.lyrics) {
-                        extractedLyrics = data.lyrics;
-                        extractedTitle = data.title;
-                        extractedArtist = data.author || data.artist;
-                    } else if (data.data && data.data.lyrics) {
-                        extractedLyrics = data.data.lyrics;
-                        extractedTitle = data.data.title;
-                        extractedArtist = data.data.artist;
+            // ─── Try JerryCoder v1 ───
+            try {
+                const res = await axios.get(`https://jerrycoder.oggyapi.workers.dev/search/lyrics-v1?q=${encodeURIComponent(query)}`, { timeout: 15000 });
+                if (res.data && res.data.lyrics) {
+                    // Check if lyrics is a string and has content
+                    if (typeof res.data.lyrics === 'string' && res.data.lyrics.length > 10) {
+                        result = {
+                            title: res.data.track?.name || query,
+                            artist: res.data.track?.artist || 'Unknown',
+                            album: res.data.track?.album || null,
+                            duration: res.data.track?.duration || null,
+                            lyrics: res.data.lyrics,
+                            source: 'v1'
+                        };
                     }
-
-                    if (extractedLyrics && extractedLyrics.trim().length > 10) {
-                        songLyrics = extractedLyrics;
-                        if (extractedTitle) songTitle = extractedTitle;
-                        if (extractedArtist) songArtist = extractedArtist;
-                        success = true;
-                        break; 
-                    }
-                } catch (e) {}
+                }
+            } catch (e) {
+                console.log(`JerryCoder v1 error: ${e.message}`);
             }
 
-            if (!success) {
-                // Genius API keys hardcoded (.env ഒഴിവാക്കി)
-                const apiKeys = [
-                    'hvolhA2B11TmnPaSx83LANzxwgMmfqNbZLm7sQGGOKCcvBEaATJT_GjnWoBfgwr1',
-                    'm0QJK3lXTw18WcdQh2J5vESa-hE1oXeMCUSVlIff8XV-bIRldZhZsTMxsHFeKzVM64Mrl63C6snrAOKwrxOkQQ',
-                    'KEYLESS_FALLBACK'
-                ];
-
-                for (let i = 0; i < apiKeys.length; i++) {
-                    try {
-                        const Client = apiKeys[i] === 'KEYLESS_FALLBACK' ? new Genius.Client() : new Genius.Client(apiKeys[i]);
-                        const searches = await Client.songs.search(query);
-                        
-                        if (searches && searches.length > 0) {
-                            const song = searches;
-                            const lyrics = await song.lyrics();
-                            
-                            if (lyrics && lyrics.trim().length > 10) {
-                                songTitle = song.title;
-                                songArtist = song.artist.name;
-                                songLyrics = lyrics;
-                                success = true;
-                                break;
-                            }
+            // ─── If v1 fails, try JerryCoder v2 ───
+            if (!result) {
+                try {
+                    const res = await axios.get(`https://jerrycoder.oggyapi.workers.dev/search/lyrics-v2?q=${encodeURIComponent(query)}`, { timeout: 15000 });
+                    if (res.data && res.data.lyrics) {
+                        if (typeof res.data.lyrics === 'string' && res.data.lyrics.length > 10) {
+                            result = {
+                                title: res.data.track?.name || query,
+                                artist: res.data.track?.artist || 'Unknown',
+                                album: res.data.track?.album || null,
+                                duration: res.data.track?.duration || null,
+                                lyrics: res.data.lyrics,
+                                source: 'v2'
+                            };
                         }
-                    } catch (e) {}
+                    }
+                } catch (e) {
+                    console.log(`JerryCoder v2 error: ${e.message}`);
                 }
             }
 
-            if (!success || !songLyrics) {
-                throw new Error('Lyrics not found on any active servers.');
+            if (!result || !result.lyrics || result.lyrics.length < 10) {
+                throw new Error('No lyrics found on JerryCoder API');
             }
 
-            let cleanLyrics = songLyrics.replace(/.*Contributors.*/g, '')
-                                        .replace(/.*Lyrics.*/g, '')
-                                        .replace(/.*Embed.*/g, '')
-                                        .trim();
+            // ─── Clean lyrics ───
+            let lyrics = result.lyrics
+                .replace(/.*Contributors.*/gi, '')
+                .replace(/.*Lyrics.*/gi, '')
+                .replace(/.*Embed.*/gi, '')
+                .trim();
 
-            let lyricsText = cleanLyrics.length > 3500 ? cleanLyrics.substring(0, 3500) + '\n\n... (truncated)' : cleanLyrics;
+            if (lyrics.length > 3800) {
+                lyrics = lyrics.substring(0, 3800) + '\n\n... (truncated)';
+            }
 
-            const responseText = `╭──『 🎶 *KIRA LYRICS* 』──⊷\n` +
-                                 `│\n` +
-                                 `│ 🎵 *Title :* ${songTitle}\n` +
-                                 `│ 👤 *Artist :* ${songArtist}\n` +
-                                 `│\n` +
-                                 `╰──────────────⊷\n\n` +
-                                 `╔══════════════════════╗\n` +
-                                 `   ${lyricsText.trim().split('\n').join('\n   ')}\n` +
-                                 `╚══════════════════════╝`;
+            // ─── Build response ───
+            let responseText = `🎤 *LYRICS* 🎤\n\n`;
+            responseText += `📖 *Title* : ${result.title}\n`;
+            responseText += `🎤 *Artist* : ${result.artist}\n`;
+            if (result.album) responseText += `💿 *Album* : ${result.album}\n`;
+            if (result.duration) responseText += `⏱️ *Duration* : ${result.duration}\n`;
+            responseText += `\n━━━━━━━━━━━━━━━━━━━\n`;
+            responseText += `${lyrics}\n`;
+            responseText += `━━━━━━━━━━━━━━━━━━━\n`;
+            responseText += WATERMARK;
 
             await sock.sendMessage(jid, { text: responseText, edit: statusMsg.key });
             await sock.sendMessage(jid, { react: { text: "✅", key: msg.key } });
-            
+
         } catch (err) {
-            console.error("Lyrics Error:", err.message); 
+            console.error('Lyrics error:', err.message);
             await sock.sendMessage(jid, { text: `❌ *Lyrics not found for:* "${query}"`, edit: statusMsg.key });
             await sock.sendMessage(jid, { react: { text: "❌", key: msg.key } });
         }

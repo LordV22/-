@@ -5,15 +5,12 @@ const fs = require("fs");
 const path = require("path");
 const webp = require("node-webpmux");
 
-// Set FFmpeg path if it exists locally, otherwise rely on system PATH
 const ffmpegPath = path.join(__dirname, '../ffmpeg.exe');
 if (fs.existsSync(ffmpegPath)) {
     ffmpeg.setFfmpegPath(ffmpegPath);
 }
 
-// ==========================================
-// 💧 HELPER: Inject EXIF Metadata (Watermark)
-// ==========================================
+// ─── Add EXIF Metadata (Watermark) ───
 async function addMetadata(webpFilePath, packName, authorName) {
     try {
         const img = new webp.Image();
@@ -21,8 +18,8 @@ async function addMetadata(webpFilePath, packName, authorName) {
 
         const exifJSON = {
             "sticker-pack-id": "kira-x-md-sticker",
-            "sticker-pack-name": packName,
-            "sticker-author-name": authorName,
+            "sticker-pack-name": packName || "KIRA X MD",
+            "sticker-author-name": authorName || "Kira",
             "emojis": ["🔥", "✨"]
         };
 
@@ -34,7 +31,7 @@ async function addMetadata(webpFilePath, packName, authorName) {
         img.exif = exif;
         await img.save(webpFilePath);
     } catch (error) {
-        console.error("Failed to add EXIF metadata:", error);
+        console.error("Metadata error:", error);
     }
 }
 
@@ -42,50 +39,49 @@ module.exports = {
     name: "sticker",
     alias: ["s", "stik"],
     category: "sticker",
-    description: "Convert image/video/GIF to sticker with watermark",
+    description: "Convert image/video/GIF to high-quality sticker",
 
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
         const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-        
+        const contextInfo = msg.message?.extendedTextMessage?.contextInfo;
+
         if (!quoted) {
             await sock.sendMessage(jid, { react: { text: "❌", key: msg.key } });
-            return await sock.sendMessage(jid, { text: "⚠️ *Please reply to an image or video!*" }, { quoted: msg });
+            return await sock.sendMessage(jid, { text: "⚠️ *Reply to an image or video!*" }, { quoted: msg });
         }
 
+        // ─── Unwrap view‑once ───
         let mediaMsg = quoted;
         if (quoted.viewOnceMessageV2) mediaMsg = quoted.viewOnceMessageV2.message;
         else if (quoted.viewOnceMessage) mediaMsg = quoted.viewOnceMessage.message;
 
         const isImage = !!mediaMsg.imageMessage;
         const isVideo = !!mediaMsg.videoMessage;
-        
+
         if (!isImage && !isVideo) {
             await sock.sendMessage(jid, { react: { text: "❌", key: msg.key } });
             return await sock.sendMessage(jid, { text: "⚠️ *Only images and videos are supported!*" }, { quoted: msg });
         }
 
-        // 🧠 Smart Watermark Argument Parser
+        // ─── Pack name & author ───
         let packName = "KIRA X MD";
         let authorName = "Kira";
-        
         if (args && args.length > 0) {
             const fullText = args.join(" ");
             if (fullText.includes("|")) {
-                const textArgs = fullText.split("|");
-                packName = textArgs.trim();
-                authorName = textArgs ? textArgs.trim() : "Kira";
+                const parts = fullText.split("|");
+                packName = parts[0].trim();
+                authorName = parts[1] ? parts[1].trim() : "Kira";
             } else {
                 packName = fullText.trim();
                 authorName = "Kira";
             }
         }
 
-        // ⏳ Start reaction indicator
         await sock.sendMessage(jid, { react: { text: "⏳", key: msg.key } });
 
-        let inputPath;
-        let outputPath;
+        let inputPath, outputPath;
 
         try {
             const buffer = await downloadMediaMessage(
@@ -99,18 +95,17 @@ module.exports = {
             if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
 
             if (isImage) {
-                // Image: static sticker
+                // ─── Image → Static Sticker ───
                 inputPath = path.join(tempDir, `in_${Date.now()}.jpg`);
                 outputPath = path.join(tempDir, `out_${Date.now()}.webp`);
                 fs.writeFileSync(inputPath, buffer);
-                
+
                 await sharp(inputPath)
                     .resize(512, 512, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
                     .webp({ quality: 90 })
                     .toFile(outputPath);
-                    
             } else {
-                // Video/GIF: animated sticker
+                // ─── Video → Animated Sticker (Full Size, High Quality) ───
                 inputPath = path.join(tempDir, `in_${Date.now()}.mp4`);
                 outputPath = path.join(tempDir, `out_${Date.now()}.webp`);
                 fs.writeFileSync(inputPath, buffer);
@@ -119,12 +114,12 @@ module.exports = {
                     ffmpeg(inputPath)
                         .outputOptions([
                             "-vcodec", "libwebp",
-                            // 🛠️ FIX: ഇവിടെ 320 എന്നത് മാറ്റി 512 ആക്കി, അപ്പോൾ ഫുൾ സൈസിൽ വരും!
-                            "-vf", "scale='min(512,iw)':min'(512,ih)':force_original_aspect_ratio=decrease,fps=15, pad=512:512:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse",
+                            "-vf", "scale=512:512:force_original_aspect_ratio=decrease,pad=512:512:(ow-iw)/2:(oh-ih)/2:color=black@0.0,fps=15",
                             "-loop", "0",
                             "-preset", "default",
-                            "-an",
-                            "-vsync", "0"
+                            "-quality", "90",
+                            "-vsync", "0",
+                            "-an"  // no audio
                         ])
                         .toFormat("webp")
                         .on("end", resolve)
@@ -136,25 +131,22 @@ module.exports = {
                 });
             }
 
-            // 💧 Inject watermark metadata
+            // ─── Inject metadata ───
             await addMetadata(outputPath, packName, authorName);
 
-            // Read and send
+            // ─── Send sticker ───
             const stickerBuffer = fs.readFileSync(outputPath);
-            
-            // 🛠️ FIX: ഇവിടെ { quoted: msg } കൊടുത്തു, അപ്പോൾ റിപ്ലൈ ആയിട്ട് വരും!
             await sock.sendMessage(jid, { sticker: stickerBuffer }, { quoted: msg });
-            
+
             await sock.sendMessage(jid, { react: { text: "✅", key: msg.key } });
 
-            // Clean up files
+            // ─── Cleanup ───
             if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
             if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
 
         } catch (err) {
-            console.error("Sticker plugin error:", err);
+            console.error("Sticker error:", err);
             await sock.sendMessage(jid, { react: { text: "❌", key: msg.key } });
-            
             if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
             if (outputPath && fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
         }

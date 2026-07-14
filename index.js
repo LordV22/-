@@ -403,8 +403,12 @@ if (text.startsWith(prefix)) {
                 if (command.category === "owner" && !isOwnerOrSudo) {
                     return await sock.sendMessage(jid, { text: "❌ *Owner only!*" }, { quoted: msg });
                 }
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                await command.execute(sock, msg, args, isOwner);
+                // Human-like random delay (6–12 seconds)
+const delay = Math.floor(Math.random() * 3000) + 4000;
+
+await new Promise(resolve => setTimeout(resolve, delay));
+
+await command.execute(sock, msg, args, isOwner);
             }
         } catch (err) {
             console.error("========== COMMAND ERROR ==========");
