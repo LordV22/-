@@ -44,6 +44,7 @@ global.callReject = false;
 global.botOnline = true;
 global.welcomeChats = [];
 global.goodbyeChats = [];
+global.gameSessions = {};
 global.antilinkChats = [];
 global.antilinkMode = {};
 global.settingsMessages = [];
@@ -73,7 +74,7 @@ global.api = {
 http.createServer((req, res) => res.end("KIRA-X-MD Online")).listen(process.env.PORT || 3000);
 
 let isStarted = false;
-
+global.startTime = Date.now();
 async function startKira() {
     console.log("🚀 Starting KIRA X MD...");
 
@@ -217,6 +218,7 @@ async function startKira() {
             console.log("WELCOME/GD ERROR:", err);
         }
     });
+    
 
     // ─── MESSAGES.UPSERT (MAIN HANDLER) ─────────────────
     sock.ev.on("messages.upsert", async ({ messages }) => {
@@ -297,6 +299,18 @@ async function startKira() {
                             return;
                         }
                     }
+                }
+            }
+            // ── GAME ANSWER CHECKER ──
+            if (global.gameSessions[jid] && global.gameSessions[jid].status === 'running' && global.gameSessions[jid].ans) {
+                if (text.toLowerCase() === global.gameSessions[jid].ans.toLowerCase()) {
+                    await sock.sendMessage(jid, { 
+                        text: `🎉 *Winner! @${sender.split('@')[0]} got the right answer!*`, 
+                        mentions: [sender] 
+                    }, { quoted: msg });
+                    
+                    delete global.gameSessions[jid]; // കളി കഴിഞ്ഞാൽ സെഷൻ ക്ലിയർ ആക്കുന്നു
+                    return; // ഇവിടെ 'return' കൊടുത്താൽ ബാക്കി കമാൻഡുകൾ ഒന്നും വർക്ക് ആകില്ല, കളി കറക്റ്റ് ആകും
                 }
             }
 
@@ -416,6 +430,15 @@ await command.execute(sock, msg, args, isOwner);
             console.error("===================================");
         }
     });
+       // ─── ANTI-PROMOTE & ANTI-DEMOTE LISTENER ──────────
+    const antiPromotePlugin = require('./plugins/antipromote.js');
+    antiPromotePlugin.initAntiPromote(sock);
+
+        // 👇 ഇത് പുതിയതായി ആഡ് ചെയ്യുക (Anti-fake വർക്ക് ചെയ്യാൻ)
+    const groupManager = require('./plugins/group_manager.js');
+    if (groupManager.initGroupEvents) {
+        groupManager.initGroupEvents(sock);
+    }
 }
 
 // ─── START ──────────────────────────────────────────────

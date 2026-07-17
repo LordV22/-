@@ -2,7 +2,7 @@ const axios = require("axios");
 
 module.exports = {
     name: "ytv",
-    alias: ["yt", "youtube"],
+    alias: ["yt", "video", "youtube"],
     category: "downloader",
     description: "Download YouTube video (MP4)",
     usage: `${process.env.PREFIX || '.'}ytv <url> (or reply to a YouTube link)`,
