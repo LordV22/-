@@ -8,10 +8,8 @@ const {
     fetchLatestBaileysVersion
 } = require("@whiskeysockets/baileys");
 const P = require("pino");
-const { DateTime } = require('luxon') || {};
 
 // Timezone: Brasilia (UTC-3)
-process.env.TZ = 'America/Sao_Paulo';
 const { commands, loadPlugins } = require("./lib/plugins");
 
 // ─── LOAD PLUGINS ──────────────────────────────────────────
