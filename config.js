@@ -5,7 +5,7 @@ module.exports = {
 
     OWNER_NUMBER: "5531995808773",
 
-    PREFIX: ".",
+    PREFIX: "/",
 
     FOOTER: "KIRA X MD • By Liliane",
 
