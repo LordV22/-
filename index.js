@@ -111,7 +111,7 @@ async function startKira() {
             } catch (err) {
                 console.log("❌ Pairing code error:", err);
             }
-        }, 15000);
+        }, 5000);
     }
 
     let codeSent = false;
@@ -141,8 +141,8 @@ async function startKira() {
         if (connection === "close") {
             const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
             if (shouldReconnect) {
-                console.log("🔄 Reconnecting in 5s...");
-                setTimeout(() => { global._reconnecting = false; startKira(); }, 5000);
+                console.log("🔄 Reconnecting in 2s...");
+                setTimeout(() => { global._reconnecting = false; startKira(); }, 2000);
             } else {
                 console.log("❌ Logged out. Delete session and scan again.");
             }
