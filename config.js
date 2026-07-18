@@ -1,21 +1,21 @@
 module.exports = {
-    BOT_NAME: "KIRA X MD",
+    BOT_NAME: "✦ 𝑨𝑲𝑰𝑹𝑨 𝑩𝑶𝑻 ✦",
 
-    OWNER_NAME: "Liliane",
+    OWNER_NAME: "𝒀𝒖𝒓𝒊 𝑫𝒆𝒗 ✦",
 
     OWNER_NUMBER: "5531995808773",
 
     PREFIX: "/",
 
-    FOOTER: "KIRA X MD • By Liliane",
+    FOOTER: "✦ 𝑨𝒌𝒊𝒓𝒂 𝑩𝒐𝒕 ✦ 𝒀𝒖𝒓𝒊 𝑫𝒆𝒗",
 
-    PACKNAME: "KIRA X MD",
+    PACKNAME: "𝑨𝒌𝒊𝒓𝒂 𝑩𝒐𝒕",
 
-    AUTHOR: "Liliane",
+    AUTHOR: "𝒀𝒖𝒓𝒊 𝑫𝒆𝒗",
 
     VERSION: "1.0.0",
 
     THUMBNAIL: "https://i.imgur.com/your-image.jpg",
 
-    MENU_IMAGE: "https://i.imgur.com/your-menu-image.jpg"
+    MENU_IMAGE: ""
 };

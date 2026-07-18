@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 module.exports = {
     name: "menu",
     alias: ["help", "commands", "cmds", "ajuda"],
@@ -17,7 +20,7 @@ module.exports = {
         const commands = global.commands || [];
         const categories = {};
 
-        // Mapa de tradução das categorias
+        // Mapa de tradução das categorias para português
         const catTranslation = {
             "AI": "🤖 INTELIGÊNCIA ARTIFICIAL",
             "ANIME": "🎌 ANIME",
@@ -48,11 +51,11 @@ module.exports = {
 
         let menu = `
 ╭──────────────────────
-│      K I R A   X   M D
+│      ✦ 𝑨𝑲𝑰𝑹𝑨 𝑩𝑶𝑻 ✦
 ├──────────────────────
 │ 👤 Usuário : ${pushname}
 │ 🎯 Prefixo : ${prefix}
-│ 🔧 Modo    : ${mode.toUpperCase()}
+│ 🔧 Desenvolvido : 𝒀𝒖𝒓𝒊 𝑫𝒆𝒗 ✦
 │ ⏰ Uptime  : ${uptimeText}
 │ 📦 Plugins : ${commands.length}
 ╰──────────────────────
@@ -66,9 +69,16 @@ module.exports = {
             menu += `└────────────────`;
         }
 
-        menu += `\n\n━━━━━━━━━━━━━━━━━━━━━━\n      KIRA X MD • By Liliane\n━━━━━━━━━━━━━━━━━━━━━━`;
+        menu += `\n\n━━━━━━━━━━━━━━━━━━━━━━\n      ✦ 𝑨𝒌𝒊𝒓𝒂 𝑩𝒐𝒕 ✦ 𝒀𝒖𝒓𝒊 𝑫𝒆𝒗\n━━━━━━━━━━━━━━━━━━━━━━`;
 
-        if (config.MENU_IMAGE) {
+        // Verificar se tem imagem salva localmente pelo /setimagem
+        const localImagePath = path.join(__dirname, '..', 'media', 'menu-image.jpg');
+        if (fs.existsSync(localImagePath)) {
+            await sock.sendMessage(jid, {
+                image: fs.readFileSync(localImagePath),
+                caption: menu
+            }, { quoted: msg });
+        } else if (config.MENU_IMAGE) {
             await sock.sendMessage(jid, {
                 image: { url: config.MENU_IMAGE },
                 caption: menu
