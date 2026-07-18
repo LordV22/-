@@ -89,7 +89,7 @@ module.exports = {
             Date.now() - start;
 
         const text =
-`╭━━〔 🤖 KIRA X MD 〕
+`╭━━〔 🤖 AKIRA-BOT 〕
 ┃🟢 Status : Online
 ┃⚡ Ping : ${ping} ms
 ┃⏱️ Uptime : ${uptime}

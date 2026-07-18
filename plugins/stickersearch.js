@@ -1,4 +1,4 @@
-// plugins/stickersearch.js – KIRA X MD (Sticker search using GIPHY)
+// plugins/stickersearch.js – AKIRA-BOT (Sticker search using GIPHY)
 const fs = require("fs");
 const path = require("path");
 const ffmpeg = require("fluent-ffmpeg");
@@ -17,9 +17,9 @@ async function addMetadata(webpFilePath, packName, authorName) {
         const img = new webp.Image();
         await img.load(webpFilePath);
         const exif = {
-            "sticker-pack-id": "kira-x-md-sticker",
-            "sticker-pack-name": packName || "KIRA X MD",
-            "sticker-author-name": authorName || "Kira",
+            "sticker-pack-id": "akira-bot-sticker",
+            "sticker-pack-name": packName || "AKIRA-BOT",
+            "sticker-author-name": authorName || "Akira",
             "emojis": ["🔎", "✨"]
         };
         const jsonBuff = Buffer.from(JSON.stringify(exif), "utf-8");
@@ -93,7 +93,7 @@ module.exports = {
                     .save(outputPath);
             });
 
-            await addMetadata(outputPath, "KIRA X MD", "Kira");
+            await addMetadata(outputPath, "AKIRA-BOT", "Akira");
             await sock.sendMessage(jid, { sticker: fs.readFileSync(outputPath) }, { quoted: msg });
 
             fs.unlinkSync(inputPath);

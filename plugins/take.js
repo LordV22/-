@@ -1,4 +1,4 @@
-// plugins/take.js - KIRA X MD (Change watermark/Take sticker)
+// plugins/take.js - AKIRA-BOT (Change watermark/Take sticker)
 const { downloadMediaMessage } = require("@whiskeysockets/baileys");
 const fs = require("fs");
 const path = require("path");
@@ -12,7 +12,7 @@ async function addMetadata(webpFilePath, packName, authorName) {
     await img.load(webpFilePath);
 
     const exifJSON = {
-        "sticker-pack-id": "kira-x-md-take",
+        "sticker-pack-id": "akira-bot-take",
         "sticker-pack-name": packName,
         "sticker-author-name": authorName,
         "emojis": ["🔥", "✨"]
@@ -53,8 +53,8 @@ module.exports = {
         }
 
         // Default fallbacks
-        let packName = "KIRA X MD";
-        let authorName = "Kira";
+        let packName = "AKIRA-BOT";
+        let authorName = "Akira";
         
         // 🧠 Smart Argument Parser
         if (args && args.length > 0) {
@@ -69,7 +69,7 @@ module.exports = {
                 // If they just type a name: .take John Doe
                 // It will make the pack name whatever they typed!
                 packName = fullText.trim();
-                authorName = "Kira"; 
+                authorName = "Akira"; 
             }
         }
 

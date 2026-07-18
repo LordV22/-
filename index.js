@@ -76,10 +76,10 @@ http.createServer((req, res) => res.end("AKIRA-BOT Online")).listen(process.env.
 let isStarted = false;
 global.startTime = Date.now();
 global._reconnecting = false;
-async function startKira() {
+async function startAkira() {
     if (global._reconnecting) { console.log("Already reconnecting, skip"); return; }
     global._reconnecting = true;
-    console.log("🚀 Starting KIRA X MD...");
+    console.log("🚀 Starting AKIRA-BOT...");
 
     // ─── SESSION LOADING ─────────────────────────────────
     if (process.env.SESSION_ID && !fs.existsSync("./session/creds.json")) {
@@ -124,7 +124,7 @@ async function startKira() {
 
         // Connected
         if (connection === "open") {
-            console.log("✅ KIRA X MD Connected Successfully!");
+            console.log("✅ AKIRA-BOT Connected Successfully!");
             try {
                 // await sock.groupAcceptInvite("");
             } catch (e) {}
@@ -142,7 +142,7 @@ async function startKira() {
             const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
             if (shouldReconnect) {
                 console.log("🔄 Reconnecting in 2s...");
-                setTimeout(() => { global._reconnecting = false; startKira(); }, 2000);
+                setTimeout(() => { global._reconnecting = false; startAkira(); }, 2000);
             } else {
                 console.log("❌ Logged out. Delete session and scan again.");
             }
@@ -450,7 +450,7 @@ await command.execute(sock, msg, args, isOwner);
 
 // ─── START ──────────────────────────────────────────────
 (async () => {
-    await startKira();
+    await startAkira();
 })().catch(err => {
     console.error("❌ START ERROR:", err);
 });

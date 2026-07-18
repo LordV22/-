@@ -1,4 +1,4 @@
-# ⚡ KIRA X MD ⚡
+# ⚡ AKIRA BOT ⚡
 
 <p align="center">
   <img src="https://i.ibb.co/FkYcVmw5/temp.jpg" width="100%">
@@ -13,9 +13,9 @@ Fast • Stable • Powerful • Premium
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/Madhavgkmd/kira-md-bot?style=for-the-badge&logo=github&color=gold">
-  <img src="https://img.shields.io/github/forks/Madhavgkmd/kira-md-bot?style=for-the-badge&logo=github&color=blue">
-  <img src="https://img.shields.io/github/license/Madhavgkmd/kira-md-bot?style=for-the-badge&color=success">
+  <img src="https://img.shields.io/github/stars/LordV22/-?style=for-the-badge&logo=github&color=gold">
+  <img src="https://img.shields.io/github/forks/LordV22/-?style=for-the-badge&logo=github&color=blue">
+  <img src="https://img.shields.io/github/license/LordV22/-?style=for-the-badge&color=success">
 </p>
 
 ---
@@ -28,7 +28,7 @@ Fast • Stable • Powerful • Premium
 <td align="center">
 <img src="https://files.catbox.moe/mdmoxs.png" width="180"><br>
 
-## MADHAV
+## YURI DEV
 
 Owner • Main Developer
 
@@ -162,9 +162,9 @@ https://kira-session-generator-api.onrender.com/
 # 📦 INSTALLATION
 
 ```bash
-git clone https://github.com/Madhavgkmd/kira-md-bot.git
+git clone https://github.com/LordV22/-.git
 
-cd kira-md-bot
+cd Akira Bot
 
 npm install
 

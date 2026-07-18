@@ -1,4 +1,4 @@
-// plugins/games.js – KIRA X MD (Lobby & Game Engine)
+// plugins/games.js – AKIRA-BOT (Lobby & Game Engine)
 const globalGames = global.gameSessions = {}; // ലobby ഡാറ്റ ഇവിടെ സൂക്ഷിക്കും
 
 module.exports = [

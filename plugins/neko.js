@@ -15,7 +15,7 @@ module.exports = {
         const sender = msg.key.fromMe ? sock.user.id.split(':') + '@s.whatsapp.net' : (msg.key.participant || msg.key.remoteJid);
         
         // Bot details
-        const botName = process.env.BOT_NAME || 'KIRA X MD';
+        const botName = process.env.BOT_NAME || 'AKIRA-BOT';
         const ownerName = process.env.OWNER_NAME || 'Yuri Dev'; 
         const mode = process.env.MODE === 'private' ? 'Private' : 'Public';
         const uptime = formatUptime(process.uptime() * 1000);
@@ -40,7 +40,7 @@ module.exports = {
         let greetText = `${greeting}, *@${sender.split('@')}* Senpai`;
         
         // --- BOT INFO BOX (Minimalist, emoji-free) ---
-        let botInfoText = "*[ KIRA X MD ]*\n\n" +
+        let botInfoText = "*[ AKIRA-BOT ]*\n\n" +
                           "*User:* " + pushName + "\n" +
                           "*Master:* " + ownerName + "\n" +
                           "*Prefix:* [ " + prefix + " ]\n" +
@@ -66,7 +66,7 @@ module.exports = {
             menuText += "\n";
         }
 
-        menuText += "_© KIRA X MD_";
+        menuText += "_© AKIRA-BOT_";
 
         // Anime Image URL (Still used for the Ad reply)
         const menuImage = 'https://i.ibb.co/68fKxXq/anime-aesthetic-dark.jpg'; 

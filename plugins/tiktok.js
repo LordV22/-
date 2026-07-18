@@ -115,7 +115,7 @@ if (!url && quoted) {
                     },
                     caption: `${postCaption}
 
-> *Downloaded by KIRA X MD*`
+> *Downloaded by AKIRA-BOT*`
                 },
                 { quoted: msg }
             );

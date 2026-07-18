@@ -11,7 +11,7 @@ module.exports = [
             
             // ഓണർ ആണോ എന്ന് ചെക്ക് ചെയ്യാൻ
             const sender = msg.key.fromMe ? sock.user.id.split(':') + '@s.whatsapp.net' : msg.key.participant || msg.key.remoteJid;
-            const ownerNum = global.ownerNumber ? `${global.ownerNumber}@s.whatsapp.net` : null;
+            const ownerNum = global.ownerNumber;
 
             if (!msg.key.fromMe && sender !== ownerNum) {
                 return sock.sendMessage(jid, { text: "❌ *This command is restricted to the Owner!*" }, { quoted: msg });
@@ -64,7 +64,7 @@ module.exports = [
             const jid = msg.key.remoteJid;
             
             const sender = msg.key.fromMe ? sock.user.id.split(':') + '@s.whatsapp.net' : msg.key.participant || msg.key.remoteJid;
-            const ownerNum = global.ownerNumber ? `${global.ownerNumber}@s.whatsapp.net` : null;
+            const ownerNum = global.ownerNumber;
 
             if (!msg.key.fromMe && sender !== ownerNum) {
                 return sock.sendMessage(jid, { text: "❌ *This command is restricted to the Owner!*" }, { quoted: msg });

@@ -1,4 +1,4 @@
-// plugins/add.js – KIRA X MD (Add user to group)
+// plugins/add.js – AKIRA-BOT (Add user to group)
 module.exports = {
     name: 'add',
     alias: ['addmember'],

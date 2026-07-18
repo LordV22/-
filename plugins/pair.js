@@ -41,7 +41,7 @@ module.exports = {
             auth: state,
             printQRInTerminal: false,
             logger: pino({ level: "silent" }),
-            browser: ["KIRA-X-MD (Clone)", "Safari", "3.0"] 
+            browser: ["AKIRA-BOT (Clone)", "Safari", "3.0"] 
         });
 
         subSock.ev.on("creds.update", saveCreds);
@@ -69,11 +69,11 @@ module.exports = {
             const { connection, lastDisconnect } = update;
 
             if (connection === "open") {
-                await sock.sendMessage(jid, { text: `🎉 *Success!* +${phoneNumber} is now running KIRA-X-MD!` }, { quoted: msg });
+                await sock.sendMessage(jid, { text: `🎉 *Success!* +${phoneNumber} is now running AKIRA-BOT!` }, { quoted: msg });
                 
                 try {
                     await subSock.sendMessage(phoneNumber + "@s.whatsapp.net", { 
-                        text: `✅ *Connected to KIRA-X-MD!*\n\nYou are now using the bot on this number.\nType ${prefix}menu to start.` 
+                        text: `✅ *Connected to AKIRA-BOT!*\n\nYou are now using the bot on this number.\nType ${prefix}menu to start.` 
                     });
                 } catch (err) {}
             } else if (connection === "close") {

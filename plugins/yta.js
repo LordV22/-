@@ -42,7 +42,7 @@ module.exports = {
 
         try {
             let audioUrl = null;
-            let title = "KIRA_X_MD_AUDIO";
+            let title = "AKIRA_BOT_AUDIO";
 
             for (const api of apis) {
                 try {

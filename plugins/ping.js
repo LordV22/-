@@ -16,7 +16,7 @@ module.exports = {
         await sock.sendMessage(
             msg.key.remoteJid,
             {
-                text: `*⚡ KIRA Latency:* ${latency}ms`,
+                text: `*⚡ AAKIRA Latency:* ${latency}ms`,
                 edit: sent.key
             }
         );

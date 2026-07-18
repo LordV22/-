@@ -92,13 +92,13 @@ module.exports = {
                             await sock.sendMessage(jid, { 
                                 video: { url: filePath }, 
                                 mimetype: 'video/mp4',
-                                caption: '📌 *KIRA X MD PINTEREST*' 
+                                caption: '📌 *AKIRA-BOT PINTEREST*' 
                             }, { quoted: msg });
                         } else {
                             await sock.sendMessage(jid, { 
                                 image: { url: filePath }, 
                                 mimetype: 'image/jpeg',
-                                caption: '📌 *KIRA X MD PINTEREST*' 
+                                caption: '📌 *AKIRA-BOT PINTEREST*' 
                             }, { quoted: msg });
                         }
 
@@ -151,7 +151,7 @@ module.exports = {
                             await sock.sendMessage(jid, { 
                                 image: Buffer.from(imgRes.data), 
                                 mimetype: 'image/jpeg',
-                                caption: `📌 *KIRA X MD*` 
+                                caption: `📌 *AKIRA-BOT*` 
                             });
                             sentCount++;
                         } catch (e) {}

@@ -59,13 +59,13 @@ module.exports = {
             if (type === "image") {
                 await sock.sendMessage(
                     jid,
-                    { image: buffer, caption: "*🎌 KIRA X MD VIEW ONCE 🎌*" },
+                    { image: buffer, caption: "*🎌 AKIRA-BOT VIEW ONCE 🎌*" },
                     { quoted: msg }
                 );
             } else {
                 await sock.sendMessage(
                     jid,
-                    { video: buffer, caption: "*🎌 KIRA X MD VIEW ONCE 🎌*" },
+                    { video: buffer, caption: "*🎌 AKIRA-BOT VIEW ONCE 🎌*" },
                     { quoted: msg }
                 );
             }

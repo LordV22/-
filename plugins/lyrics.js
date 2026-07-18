@@ -1,7 +1,7 @@
-// plugins/lyrics.js – KIRA X MD (JerryCoder API only)
+// plugins/lyrics.js – AKIRA-BOT (JerryCoder API only)
 const axios = require('axios');
 
-const WATERMARK = `\n\n──────────────\n> *KIRA X MD*`;
+const WATERMARK = `\n\n──────────────\n> *AKIRA-BOT*`;
 
 module.exports = {
     name: 'lyrics',

@@ -1,4 +1,4 @@
-// plugins/webzip.js – KIRA X MD (Download website as ZIP)
+// plugins/webzip.js – AKIRA-BOT (Download website as ZIP)
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
@@ -49,7 +49,7 @@ module.exports = {
                 document: fs.readFileSync(tempFile),
                 mimetype: 'application/zip',
                 fileName: fileName,
-                caption: `📦 *Website downloaded*\n🌐 ${url}\n\n> *KIRA X MD*`
+                caption: `📦 *Website downloaded*\n🌐 ${url}\n\n> *AKIRA-BOT*`
             });
 
             await sock.sendMessage(jid, { react: { text: '✅', key: msg.key } });

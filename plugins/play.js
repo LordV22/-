@@ -1,4 +1,4 @@
-// plugins/play.js – KIRA X MD (YouTube audio downloader)
+// plugins/play.js – AKIRA-BOT (YouTube audio downloader)
 const ytSearch = require('yt-search');
 const axios = require('axios');
 

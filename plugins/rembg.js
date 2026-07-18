@@ -1,4 +1,4 @@
-// plugins/rembg.js – KIRA X MD (Remove background from image)
+// plugins/rembg.js – AKIRA-BOT (Remove background from image)
 const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
@@ -53,7 +53,7 @@ module.exports = {
             const resultBuffer = Buffer.from(response.data);
 
             // 4. Send the result as image
-            await sock.sendMessage(jid, { image: resultBuffer, caption: '✨ *Background removed*\n\n> *KIRA X MD*' });
+            await sock.sendMessage(jid, { image: resultBuffer, caption: '✨ *Background removed*\n\n> *AKIRA-BOT*' });
 
             await sock.sendMessage(jid, { react: { text: '✅', key: msg.key } });
             await sock.sendMessage(jid, { text: '✅ *Done*', edit: statusMsg.key });

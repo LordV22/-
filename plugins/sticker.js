@@ -17,9 +17,9 @@ async function addMetadata(webpFilePath, packName, authorName) {
         await img.load(webpFilePath);
 
         const exifJSON = {
-            "sticker-pack-id": "kira-x-md-sticker",
-            "sticker-pack-name": packName || "KIRA X MD",
-            "sticker-author-name": authorName || "Kira",
+            "sticker-pack-id": "akira-bot-sticker",
+            "sticker-pack-name": packName || "AKIRA-BOT",
+            "sticker-author-name": authorName || "Akira",
             "emojis": ["🔥", "✨"]
         };
 
@@ -65,17 +65,17 @@ module.exports = {
         }
 
         // ─── Pack name & author ───
-        let packName = "KIRA X MD";
-        let authorName = "Kira";
+        let packName = "AKIRA-BOT";
+        let authorName = "Akira";
         if (args && args.length > 0) {
             const fullText = args.join(" ");
             if (fullText.includes("|")) {
                 const parts = fullText.split("|");
                 packName = parts[0].trim();
-                authorName = parts[1] ? parts[1].trim() : "Kira";
+                authorName = parts[1] ? parts[1].trim() : "Akira";
             } else {
                 packName = fullText.trim();
-                authorName = "Kira";
+                authorName = "Akira";
             }
         }
 

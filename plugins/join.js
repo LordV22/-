@@ -1,4 +1,4 @@
-// plugins/join.js - KIRA X MD (Join group via invite link or code)
+// plugins/join.js - AKIRA-BOT (Join group via invite link or code)
 module.exports = {
     name: "join",
     alias: ["invite", "joingroup"],

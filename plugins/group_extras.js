@@ -1,4 +1,4 @@
-// plugins/group_extras.js – KIRA X MD (Extras)
+// plugins/group_extras.js – AKIRA-BOT (Extras)
 const fs = require('fs');
 const path = './banned_users.json';
 

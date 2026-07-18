@@ -7,7 +7,7 @@ module.exports = {
 
         const text = `
 ╔══════════════════════════╗
-   ⚡ *KIRA X MD - REPO* ⚡
+   ⚡ *AKIRA-BOT - REPO* ⚡
 ╚══════════════════════════╝
 
 💠 *GitHub Repository*
@@ -20,7 +20,7 @@ module.exports = {
 🔗 https://chat.whatsapp.com/C3hbXjblNLiF7CoDYJ8lwY
 
 ━━━━━━━━━━━━━━━━━━━━
-✨ *KIRA X MD* | _Powered by KIRA X MD_
+✨ *AKIRA-BOT* | _Powered by AKIRA-BOT_
 ⭐ *Don't forget to Star & Fork!*
 🚀 *Keep coding, keep evolving.*
 ━━━━━━━━━━━━━━━━━━━━
@@ -32,7 +32,7 @@ module.exports = {
                 text,
                 contextInfo: {
                     externalAdReply: {
-                        title: "KIRA X MD - OFFICIAL REPO",
+                        title: "AKIRA-BOT - OFFICIAL REPO",
                         body: "Get the latest updates here",
                         thumbnailUrl: "https://files.catbox.moe/kriz_logo.jpg", // നിന്റെ ലോഗോ ലിങ്ക് ഇവിടെ നൽകുക
                         mediaType: 1,

@@ -11,7 +11,7 @@ module.exports = {
 
         if (!query) {
             return await sock.sendMessage(jid, { 
-                text: `🌤️ *KIRA WEATHER*\n\n❌ *Please enter a city name*\n➤ Example: ${process.env.PREFIX || '.'}weather Kochi` 
+                text: `🌤️ *AKIRA WEATHER*\n\n❌ *Please enter a city name*\n➤ Example: ${process.env.PREFIX || '.'}weather Kochi` 
             }, { quoted: msg });
         }
 
@@ -43,7 +43,7 @@ module.exports = {
                 return codes[code] || '🌡️ Normal';
             };
 
-            const response = `🌍 *KIRA WEATHER REPORT* 🌍
+            const response = `🌍 *AKIRA WEATHER REPORT* 🌍
 
 📍 *Location* : ${name}, ${admin1 || ''}, ${country}
 
@@ -58,7 +58,7 @@ module.exports = {
 🌧️ *Precipitation* : ${w.precipitation} mm
 
 ━━━━━━━━━━━━━━━━━━━
-🔹 *KIRA X MD* 🔹`;
+🔹 *AKIRA-BOT* 🔹`;
 
             await sock.sendMessage(jid, { text: response, edit: statusMsg.key });
             await sock.sendMessage(jid, { react: { text: "✅", key: msg.key } });

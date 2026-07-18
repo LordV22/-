@@ -116,7 +116,7 @@ https://chat.whatsapp.com/${code}`
 
         if (!name) {
             return sock.sendMessage(jid,{
-                text:"❌ Example:\n.gname KIRA-X MD"
+                text:"❌ Example:\n.gname AKIRA-BOT"
             });
         }
 
@@ -172,7 +172,7 @@ https://chat.whatsapp.com/${code}`
 
         // 2. ഓണർ ആണോ എന്ന് ചെക്ക് ചെയ്യുന്നു (അല്ലെങ്കിൽ ബ്ലോക്ക് ചെയ്യും)
         // (ബോട്ടിന്റെ സ്വന്തം നമ്പറിൽ നിന്ന് അയച്ചതാണോ എന്നറിയാൻ msg.key.fromMe സഹായിക്കും)
-        if (!msg.key.fromMe && sender !== `${global.ownerNumber}@s.whatsapp.net`) {
+        if (!msg.key.fromMe && sender !== global.ownerNumber) {
             return await sock.sendMessage(jid, { 
                 text: "❌ *This command is restricted to the Bot Owner!*" 
             }, { quoted: msg });
@@ -201,7 +201,7 @@ https://chat.whatsapp.com/${code}`
         const sender = msg.key.participant || msg.key.remoteJid;
 
         // ഓണർ ചെക്ക് ഇവിടെയും കൊടുത്തു
-        if (!msg.key.fromMe && sender !== `${global.ownerNumber}@s.whatsapp.net`) {
+        if (!msg.key.fromMe && sender !== global.ownerNumber) {
             return await sock.sendMessage(jid, { 
                 text: "❌ *This command is restricted to the Bot Owner!*" 
             }, { quoted: msg });

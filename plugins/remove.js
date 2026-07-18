@@ -1,4 +1,4 @@
-// plugins/find.js – KIRA X MD (Song identification via JerryCoder)
+// plugins/find.js – AKIRA-BOT (Song identification via JerryCoder)
 const axios = require('axios');
 
 module.exports = {
@@ -51,7 +51,7 @@ module.exports = {
                 `🎤 *Artist* : ${artist}\n` +
                 `💿 *Album* : ${album}\n` +
                 `📅 *Release* : ${release}\n\n` +
-                `> *KIRA X MD*`;
+                `> *AKIRA-BOT*`;
 
             if (cover) {
                 await sock.sendMessage(jid, { image: { url: cover }, caption });

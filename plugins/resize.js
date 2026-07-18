@@ -73,13 +73,13 @@ module.exports = {
                         .run();
                 });
                 const videoBuffer = fs.readFileSync(outputPath);
-                await sock.sendMessage(jid, { video: videoBuffer, mimetype: 'video/mp4', caption: "🎬 *Resized by KIRA X MD*" }, { quoted: msg });
+                await sock.sendMessage(jid, { video: videoBuffer, mimetype: 'video/mp4', caption: "🎬 *Resized by AKIRA-BOT*" }, { quoted: msg });
             } else {
                 await sharp(inputPath)
                     .resize(targetWidth, targetHeight, { fit: "cover" })
                     .toFile(outputPath);
                 const imgBuffer = fs.readFileSync(outputPath);
-                await sock.sendMessage(jid, { image: imgBuffer, caption: "🖼️ *Resized by KIRA X MD*" }, { quoted: msg });
+                await sock.sendMessage(jid, { image: imgBuffer, caption: "🖼️ *Resized by AKIRA-BOT*" }, { quoted: msg });
             }
             await sock.sendMessage(jid, { react: { text: "✅", key: msg.key } });
         } catch (err) {

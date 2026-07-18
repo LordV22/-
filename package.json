@@ -1,7 +1,7 @@
 {
-  "name": "kira-x-md",
+  "name": "akira-bot",
   "version": "1.0.0",
-  "description": "KIRA X MD WhatsApp Bot",
+  "description": "Akira Bot WhatsApp Bot",
   "main": "index.js",
   "author": "Yuri Dev",
   "license": "MIT",

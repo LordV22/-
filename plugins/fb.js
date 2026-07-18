@@ -74,7 +74,7 @@ module.exports = {
 
             await sock.sendMessage(jid, {
                 video: { url: video },
-                caption: `${caption}\n\n> *Downloaded by KIRA X MD*`
+                caption: `${caption}\n\n> *Downloaded by AKIRA-BOT*`
             }, { quoted: msg });
 
             await sock.sendMessage(jid, {

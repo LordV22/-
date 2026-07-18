@@ -10,7 +10,7 @@ module.exports = {
         // 1. Restart command
         if (cmd === "restart") {
             const sender = msg.key.fromMe ? sock.user.id.split(':') + '@s.whatsapp.net' : msg.key.participant || msg.key.remoteJid;
-            const ownerNum = global.ownerNumber ? `${global.ownerNumber}@s.whatsapp.net` : null;
+            const ownerNum = global.ownerNumber;
 
             if (!msg.key.fromMe && sender !== ownerNum) {
                 return await sock.sendMessage(jid, { text: "❌ *Restricted to Bot Owner!*" }, { quoted: msg });

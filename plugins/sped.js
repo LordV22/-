@@ -40,7 +40,7 @@ module.exports = {
             });
 
             const audioBuffer = fs.readFileSync(outputPath);
-            await sock.sendMessage(jid, { audio: audioBuffer, mimetype: "audio/mpeg", ptt: false, caption: "KIRA X MD" });
+            await sock.sendMessage(jid, { audio: audioBuffer, mimetype: "audio/mpeg", ptt: false, caption: "AKIRA-BOT" });
             await sock.sendMessage(jid, { react: { text: "✅", key: msg.key } });
         } catch (err) {
             console.error(err);

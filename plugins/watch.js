@@ -1,4 +1,4 @@
-// plugins/watch.js – KIRA X MD (Anime downloader)
+// plugins/watch.js – AKIRA-BOT (Anime downloader)
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
@@ -10,7 +10,7 @@ const execPromise = util.promisify(exec);
 console.log("✅ WATCH PLUGIN LOADED");
 
 const userState = {};
-const WATERMARK = `\n\n>* KIRA X MD*`;
+const WATERMARK = `\n\n>* AKIRA-BOT*`;
 
 // ─── Try multiple Gogoanime domains ───
 const DOMAINS = [

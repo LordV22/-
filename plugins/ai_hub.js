@@ -2,10 +2,10 @@ const axios = require('axios');
 
 module.exports = [
     {
-        name: 'kira', 
+        name: 'akira', 
         category: 'ai',
-        description: 'Talk with Kira AI',
-        usage: '.kira <question>',
+        description: 'Talk with Akira AI',
+        usage: '.akira <question>',
         async execute(sock, msg, args) {
             if (!args[0]) return await sock.sendMessage(msg.key.remoteJid, { text: '⚠️ Ask something!' });
             // 'q' മാറ്റി 'prompt' ആക്കി

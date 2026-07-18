@@ -1,4 +1,4 @@
-// plugins/group_manager.js – KIRA X MD (Unified Group Plugin)
+// plugins/group_manager.js – AKIRA-BOT (Unified Group Plugin)
 const fs = require('fs');
 const path = './group_settings.json';
 
@@ -314,7 +314,7 @@ module.exports = [
             
             if (!isOwner) return await sock.sendMessage(jid, { text: '❌ *Only my Owner can command me to leave!*' }, { quoted: msg });
 
-            await sock.sendMessage(jid, { text: '👋 *Goodbye everyone! KIRA X MD is leaving...*' });
+            await sock.sendMessage(jid, { text: '👋 *Goodbye everyone! AKIRA-BOT is leaving...*' });
             await sock.groupLeave(jid);
         }
     }

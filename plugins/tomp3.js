@@ -1,4 +1,4 @@
-// plugins/tomp3.js - KIRA X MD (Video to MP3 with Metadata & Reply)
+// plugins/tomp3.js - AKIRA-BOT (Video to MP3 with Metadata & Reply)
 const { downloadMediaMessage } = require("@whiskeysockets/baileys");
 const ffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
@@ -53,9 +53,9 @@ module.exports = {
                     .toFormat("mp3")
                     .audioBitrate(128)
                     .outputOptions([
-                        '-metadata', 'title=KIRA X MD',  // പാട്ടിന്റെ പേര് (Title)
-                        '-metadata', 'artist=Madhav',    // പാടിയ ആൾ/ഉണ്ടാക്കിയത് (Artist)
-                        '-metadata', 'album=KIRA Bot'    // ആൽബം പേര് 
+                        '-metadata', 'title=AKIRA-BOT',  // പാട്ടിന്റെ പേര് (Title)
+                        '-metadata', 'artist=Akira Bot',    // പാടിയ ആൾ/ഉണ്ടാക്കിയത് (Artist)
+                        '-metadata', 'album=AKIRA BOT'    // ആൽബം പേര് 
                     ])
                     .on("end", resolve)
                     .on("error", reject)
@@ -71,7 +71,7 @@ module.exports = {
                 audio: audioBuffer,
                 mimetype: "audio/mpeg",
                 ptt: false, // true ആക്കിയാൽ വോയിസ് നോട്ട് ആയി പോകും
-                fileName: `KIRA_X_MD_${Date.now()}.mp3`,
+                fileName: `AKIRA_BOT_${Date.now()}.mp3`,
             }, { quoted: msg }); // <-- നിന്റെ മെസ്സേജിന് റിപ്ലൈ പോവാൻ ഇതാണ് ചേർത്തത് (quoted: msg)
 
             await sock.sendMessage(jid, { react: { text: "✅", key: msg.key } });

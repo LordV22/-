@@ -1,4 +1,4 @@
-// plugins/fancy.js – KIRA X MD (30 Fancy Font Styles)
+// plugins/fancy.js – AKIRA-BOT (30 Fancy Font Styles)
 const userState = {};
 
 // ─── Style mappings (full 30 styles) ──────────────────────

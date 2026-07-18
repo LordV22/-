@@ -4,21 +4,21 @@ module.exports = {
     name: "ai",
     alias: ["gemini", "gpt"],
     category: "ai",
-    description: "KIRA AI Assistant",
+    description: "AKIRA AI Assistant",
 
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
         const question = args.join(" ").trim();
 
         if (!question) {
-            return await sock.sendMessage(jid, { text: "🩸 *KIRA AI*\n\nExample: .ai Tell me about India" }, { quoted: msg });
+            return await sock.sendMessage(jid, { text: "🩸 *AKIRA AI*\n\nExample: .ai Tell me about India" }, { quoted: msg });
         }
 
         try {
             await sock.sendMessage(jid, { react: { text: "🧠", key: msg.key } });
-            const thinking = await sock.sendMessage(jid, { text: "🩸 *_KIRA is thinking..._*" }, { quoted: msg });
+            const thinking = await sock.sendMessage(jid, { text: "🩸 *_AKIRA is thinking..._*" }, { quoted: msg });
 
-            const prompt = `You are KIRA, an anime-style AI. Creator: Yuri Dev. User: ${question}. Reply in detail.`;
+            const prompt = `You are AKIRA, an anime-style AI. Creator: Yuri Dev. User: ${question}. Reply in detail.`;
 
             // API Endpoints
             const apis = [
@@ -50,7 +50,7 @@ module.exports = {
             if (!reply) throw new Error("No response from any API");
 
             // Clean output
-            reply = reply.replace(/ChatGPT|Gemini|Google AI/gi, "KIRA");
+            reply = reply.replace(/ChatGPT|Gemini|Google AI/gi, "AKIRA");
 
             const message = `╭━━━〔 K I R A • A I 〕━━━⬣\n\n👤 ${question}\n\n┈┈┈┈┈┈┈┈┈┈\n\n${reply}\n\n┈┈┈┈┈┈┈┈┈┈\n🩸 Justice Never Sleeps.\n╰━━━━━━━━━━━━━━⬣`;
 
@@ -63,7 +63,7 @@ module.exports = {
         } catch (err) {
             console.log("AI ERROR:", err.message);
             await sock.sendMessage(jid, { react: { text: "❌", key: msg.key } });
-            await sock.sendMessage(jid, { text: "🩸 *KIRA AI*\n\nI couldn't answer, Senpai. Try again later." }, { quoted: msg });
+            await sock.sendMessage(jid, { text: "🩸 *AKIRA AI*\n\nI couldn't answer, Senpai. Try again later." }, { quoted: msg });
         }
     }
 };

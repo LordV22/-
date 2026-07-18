@@ -159,7 +159,7 @@ module.exports = {
                 const caption =
 `${postCaption}
 
-> *Downloaded by KIRA X MD*`;
+> *Downloaded by AKIRA-BOT*`;
 
                 if (
                     type.toLowerCase() ===

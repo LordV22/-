@@ -96,7 +96,7 @@ module.exports = {
                     caption:
 `🪄 *Image Enhanced*
 
-> *Powered by KIRA X MD*`
+> *Powered by AKIRA-BOT*`
                 },
                 { quoted: msg }
             );

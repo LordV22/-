@@ -11,7 +11,7 @@ async function addMetadata(webpFilePath, packName, authorName) {
         await img.load(webpFilePath);
 
         const exifJSON = {
-            "sticker-pack-id": "kira-x-md-sticker",
+            "sticker-pack-id": "akira-bot-sticker",
             "sticker-pack-name": packName,
             "sticker-author-name": authorName,
             "emojis": ["🌈", "✨"]
@@ -97,7 +97,7 @@ module.exports = {
 
         if (!text) {
             await sock.sendMessage(jid, { react: { text: "❌", key: msg.key } });
-            return await sock.sendMessage(jid, { text: "*_⚠️ Need text!_*\n_Example: .attp KIRA_" }, { quoted: msg });
+            return await sock.sendMessage(jid, { text: "*_⚠️ Need text!_*\n_Example: .attp AKIRA_" }, { quoted: msg });
         }
 
         await sock.sendMessage(jid, { react: { text: "⏳", key: msg.key } });
@@ -113,8 +113,8 @@ module.exports = {
             tempPath = path.join(tempDir, `attp_${Date.now()}.webp`);
             fs.writeFileSync(tempPath, buffer);
 
-            // Add your KIRA X MD Watermark
-            await addMetadata(tempPath, "KIRA X MD", "Kira");
+            // Add your AKIRA-BOT Watermark
+            await addMetadata(tempPath, "AKIRA-BOT", "Akira");
 
             // Send Sticker
             const stickerBuffer = fs.readFileSync(tempPath);

@@ -46,7 +46,7 @@ module.exports = {
                 msg.key.remoteJid,
                 {
                     image: imageBuffer,
-                    caption: "🖼️ Converted by KIRA X MD"
+                    caption: "🖼️ Converted by AKIRA-BOT"
                 }
             );
 

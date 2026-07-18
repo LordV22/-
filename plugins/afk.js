@@ -1,4 +1,4 @@
-// plugins/afk.js - KIRA X MD (AFK system for owner)
+// plugins/afk.js - AKIRA-BOT (AFK system for owner)
 const fs = require('fs');
 const path = require('path');
 
@@ -43,7 +43,7 @@ module.exports = {
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
         const sender = msg.key.participant || jid;
-        const ownerNumber = process.env.OWNER_NUMBER; // e.g., "919876543210@s.whatsapp.net"
+        const ownerNumber = global.ownerNumber;
 
         // Only owner can use AFK
         if (sender !== ownerNumber) {

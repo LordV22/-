@@ -58,7 +58,7 @@ module.exports = {
                 await sock.sendMessage(jid, { 
                     video: videoBuffer, 
                     mimetype: 'video/mp4', 
-                    caption: "🎬 *Squared by KIRA X MD*" 
+                    caption: "🎬 *Squared by AKIRA-BOT*" 
                 }, { quoted: msg });
                 
             } else {
@@ -69,7 +69,7 @@ module.exports = {
                 const imgBuffer = fs.readFileSync(outputPath);
                 await sock.sendMessage(jid, { 
                     image: imgBuffer, 
-                    caption: "🖼️ *Squared by KIRA X MD*" 
+                    caption: "🖼️ *Squared by AKIRA-BOT*" 
                 }, { quoted: msg });
             }
             

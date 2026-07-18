@@ -1,4 +1,4 @@
-// plugins/antipromote.js – KIRA X MD (Anti-Promote & Anti-Demote)
+// plugins/antipromote.js – AKIRA-BOT (Anti-Promote & Anti-Demote)
 global.antiPromoteChats = global.antiPromoteChats || [];
 global.antiDemoteChats = global.antiDemoteChats || [];
 

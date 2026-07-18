@@ -44,7 +44,7 @@ module.exports = {
             const url = anime.url || 'https://myanimelist.net';
             const imgUrl = anime.images?.jpg?.large_image_url || '';
 
-            const premiumMessage = `🎌 *KIRA ANIME INFO* 🎌
+            const premiumMessage = `🎌 *AKIRA ANIME INFO* 🎌
 
 📖 *Title* : ${title}
 🌐 *English Title* : ${eng}

@@ -43,7 +43,7 @@ module.exports = {
                     caption:
 `${title}
 
-> *Downloaded by KIRA X MD*`
+> *Downloaded by AKIRA-BOT*`
                 },
                 { quoted: msg }
             );
