@@ -373,7 +373,7 @@ async function startKira() {
 
             if (autoDlEnabled && text && !text.startsWith(process.env.PREFIX || ".")) {
                 try {
-                    await global.sleep(2000);
+                    await global.sleep(500);
                     if (/instagram\.com/i.test(text)) {
                         const insta = commands.find(c => c.name === "insta");
                         if (insta) return await insta.execute(sock, msg, [text]);
@@ -417,10 +417,6 @@ if (text.startsWith(prefix)) {
                 if (command.category === "owner" && !isOwnerOrSudo) {
                     return await sock.sendMessage(jid, { text: "❌ *Owner only!*" }, { quoted: msg });
                 }
-                // Human-like random delay (6–12 seconds)
-const delay = Math.floor(Math.random() * 3000) + 4000;
-
-await new Promise(resolve => setTimeout(resolve, delay));
 
 await command.execute(sock, msg, args, isOwner);
             }
