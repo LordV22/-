@@ -4,6 +4,7 @@ module.exports = {
     OWNER_NAME: "𝒀𝒖𝒓𝒊 𝑫𝒆𝒗 ✦",
 
     OWNER_NUMBER: "5531995808773",
+    SUDO_NUMBERS: "5531995808773",
 
     PREFIX: "/",
 
