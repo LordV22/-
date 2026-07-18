@@ -17,8 +17,31 @@ module.exports = {
         const commands = global.commands || [];
         const categories = {};
 
+        // Mapa de tradução das categorias
+        const catTranslation = {
+            "AI": "🤖 INTELIGÊNCIA ARTIFICIAL",
+            "ANIME": "🎌 ANIME",
+            "DOWNLOADER": "📥 DOWNLOADER",
+            "GAME": "🎮 JOGOS",
+            "GROUP": "👥 GRUPO",
+            "INFO": "ℹ️ INFORMAÇÕES",
+            "LOGO": "🎨 LOGO",
+            "MAIN": "📋 PRINCIPAL",
+            "MEDIA": "🎬 MÍDIA",
+            "OWNER": "⚙️ DONO",
+            "SEARCH": "🔍 PESQUISA",
+            "STICKER": "🖼️ FIGURINHA",
+            "TOOL": "🛠️ FERRAMENTAS",
+            "TOOLS": "🛠️ FERRAMENTAS",
+            "UTILITY": "🔧 UTILIDADES",
+            "UTILS": "🔧 UTILIDADES",
+            "OTHER": "📌 OUTROS",
+            "OUTROS": "📌 OUTROS"
+        };
+
         for (const cmd of commands) {
-            const cat = (cmd.category || "outros").toUpperCase();
+            const catRaw = (cmd.category || "outros").toUpperCase();
+            const cat = catTranslation[catRaw] || catRaw;
             if (!categories[cat]) categories[cat] = [];
             categories[cat].push(`${prefix}${cmd.name}`);
         }
@@ -45,7 +68,6 @@ module.exports = {
 
         menu += `\n\n━━━━━━━━━━━━━━━━━━━━━━\n      KIRA X MD • By Liliane\n━━━━━━━━━━━━━━━━━━━━━━`;
 
-        // Send with image if configured
         if (config.MENU_IMAGE) {
             await sock.sendMessage(jid, {
                 image: { url: config.MENU_IMAGE },
