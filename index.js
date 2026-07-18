@@ -95,7 +95,7 @@ async function startKira() {
         logger: P({ level: "fatal" }),
         auth: state,
         printQRInTerminal: false,  // QR disabled, pairing code will be used
-        browser: ["Ubuntu", "Chrome", "20.0.04"]
+        browser: ["Windows", "Edge", "120.0.0"]
     });
 
     // ─── REQUEST PAIRING CODE (IF NO SESSION) ──────────
@@ -107,11 +107,11 @@ async function startKira() {
         setTimeout(async () => {
             try {
                 const code = await sock.requestPairingCode(process.env.BOT_NUMBER.replace(/[^0-9]/g, ""));
-                console.log("\n🔑 YOUR PAIRING CODE:", code, "\n");
+                console.log("\n🔑 [", new Date().toISOString(), "] YOUR PAIRING CODE:", code, "\n");
             } catch (err) {
                 console.log("❌ Pairing code error:", err);
             }
-        }, 3000);
+        }, 15000);
     }
 
     let codeSent = false;
