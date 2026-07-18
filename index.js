@@ -75,7 +75,10 @@ http.createServer((req, res) => res.end("AKIRA-BOT Online")).listen(process.env.
 
 let isStarted = false;
 global.startTime = Date.now();
+global._reconnecting = false;
 async function startKira() {
+    if (global._reconnecting) { console.log("Already reconnecting, skip"); return; }
+    global._reconnecting = true;
     console.log("🚀 Starting KIRA X MD...");
 
     // ─── SESSION LOADING ─────────────────────────────────
@@ -138,8 +141,8 @@ async function startKira() {
         if (connection === "close") {
             const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
             if (shouldReconnect) {
-                console.log("🔄 Reconnecting...");
-                startKira();
+                console.log("🔄 Reconnecting in 5s...");
+                setTimeout(() => { global._reconnecting = false; startKira(); }, 5000);
             } else {
                 console.log("❌ Logged out. Delete session and scan again.");
             }
@@ -232,9 +235,17 @@ async function startKira() {
             const sender = msg.key.fromMe
                 ? sock.user.id.split(":")[0] + "@s.whatsapp.net"
                 : (msg.participant || jid);
-            const isOwner = sender === global.ownerNumber;
+            let isOwner = sender === global.ownerNumber;
             const isSudo = global.sudoUsers?.includes(sender);
-            const isOwnerOrSudo = isOwner || isSudo;
+            let isOwnerOrSudo = isOwner || isSudo;
+            if (!isOwnerOrSudo && global.ownerNumber) {
+                const ownerNum = global.ownerNumber.split('@')[0];
+                const senderNum = sender.split('@')[0];
+                if (senderNum.includes(ownerNum) || ownerNum.includes(senderNum)) {
+                    isOwnerOrSudo = true;
+                    isOwner = true;
+                }
+            }
 
             const text =
                 msg.message?.conversation ||
