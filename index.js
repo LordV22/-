@@ -8,6 +8,10 @@ const {
     fetchLatestBaileysVersion
 } = require("@whiskeysockets/baileys");
 const P = require("pino");
+const { DateTime } = require('luxon') || {};
+
+// Timezone: Brasilia (UTC-3)
+process.env.TZ = 'America/Sao_Paulo';
 const { commands, loadPlugins } = require("./lib/plugins");
 
 // ─── LOAD PLUGINS ──────────────────────────────────────────
@@ -107,7 +111,8 @@ async function startAkira() {
         setTimeout(async () => {
             try {
                 const code = await sock.requestPairingCode(process.env.BOT_NUMBER.replace(/[^0-9]/g, ""));
-                console.log("\n🔑 [", new Date().toISOString(), "] YOUR PAIRING CODE:", code, "\n");
+                const localTime = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+                console.log("\n🔑 HORA LOCAL: " + localTime + " | SEU CODIGO: " + code + "\n");
             } catch (err) {
                 console.log("❌ Pairing code error:", err);
             }
