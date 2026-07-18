@@ -101,7 +101,7 @@ async function startKira() {
     // ─── REQUEST PAIRING CODE (IF NO SESSION) ──────────
     if (process.env.BOT_NUMBER) {
         if (fs.existsSync("./session")) {
-            fs.rmSync("./session", { recursive: true, force: true });
+            fs.rmSync("./session/creds.json", { force: true });
             console.log("🗑️ Session deleted, requesting new pairing code...");
         }
         setTimeout(async () => {
