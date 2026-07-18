@@ -18,7 +18,7 @@ module.exports = {
             await sock.sendMessage(jid, { react: { text: "🧠", key: msg.key } });
             const thinking = await sock.sendMessage(jid, { text: "🩸 *_KIRA is thinking..._*" }, { quoted: msg });
 
-            const prompt = `You are KIRA, an anime-style AI. Creator: Madhav. User: ${question}. Reply in detail.`;
+            const prompt = `You are KIRA, an anime-style AI. Creator: Yuri Dev. User: ${question}. Reply in detail.`;
 
             // API Endpoints
             const apis = [

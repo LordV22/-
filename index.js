@@ -71,7 +71,7 @@ global.api = {
 };
 
 // ─── KEEPALIVE SERVER ──────────────────────────────────
-http.createServer((req, res) => res.end("KIRA-X-MD Online")).listen(process.env.PORT || 3000);
+http.createServer((req, res) => res.end("AKIRA-BOT Online")).listen(process.env.PORT || 3000);
 
 let isStarted = false;
 global.startTime = Date.now();
@@ -123,12 +123,12 @@ async function startKira() {
         if (connection === "open") {
             console.log("✅ KIRA X MD Connected Successfully!");
             try {
-                await sock.groupAcceptInvite("C3hbXjblNLiF7CoDYJ8lwY");
+                // await sock.groupAcceptInvite("");
             } catch (e) {}
 
             if (!isStarted) {
                 await sock.sendMessage(global.ownerNumber, {
-                    text: `╭━━━〔 KIRA-X-MD 〕━━━⬣\n\n✅ Connected Successfully\n\n👤 Owner : Madhav\n🤖 Bot : KIRA-X-MD\n🌐 Repo : https://github.com/Madhavgkmd/kira-md-bot\n📢 Support Group : https://chat.whatsapp.com/C3hbXjblNLiF7CoDYJ8lwY\n╰━━━━━━━━━━━━━━⬣`
+                    text: `✅ *Conectado com sucesso!*\n\n👤 *Dono:* Yuri Dev\n🤖 *Bot:* AKIRA-BOT`
                 });
                 isStarted = true;
             }

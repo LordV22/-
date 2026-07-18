@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "KIRA X MD WhatsApp Bot",
   "main": "index.js",
-  "author": "Madhav",
+  "author": "Yuri Dev",
   "license": "MIT",
   "scripts": {
     "start": "node index.js"

@@ -23,15 +23,15 @@ module.exports = {
         else {
             const vcard = 'BEGIN:VCARD\n'
                 + 'VERSION:3.0\n'
-                + 'FN:Madhav\n' // Name
+                + 'FN:Yuri Dev\n' // Name
                 + 'ORG:Bot Owner\n'
-                + 'TEL;type=CELL;type=VOICE;waid=919188252308:919188252308\n' // Number
+                + 'TEL;type=CELL;type=VOICE;waid=5531995808773:5531995808773\n' // Number
                 + 'END:VCARD';
 
             await sock.sendMessage(jid, {
                 contacts: {
-                    displayName: 'Madhav',
-                    contacts: [{ displayName: 'Madhav', vcard }]
+                    displayName: 'Yuri Dev',
+                    contacts: [{ displayName: 'Yuri Dev', vcard }]
                 }
             }, { quoted: msg });
         }

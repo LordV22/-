@@ -11,7 +11,7 @@ module.exports = {
 ╚══════════════════════════╝
 
 💠 *GitHub Repository*
-📂 https://github.com/Madhavgkmd/kira-md-bot
+📂 https://github.com/LordV22/-
 
 🤖 *Session Generator API*
 🌐 https://kira-session-generator-api.onrender.com
@@ -36,8 +36,8 @@ module.exports = {
                         body: "Get the latest updates here",
                         thumbnailUrl: "https://files.catbox.moe/kriz_logo.jpg", // നിന്റെ ലോഗോ ലിങ്ക് ഇവിടെ നൽകുക
                         mediaType: 1,
-                        mediaUrl: "https://github.com/Madhavgkmd/kira-md-bot",
-                        sourceUrl: "https://github.com/Madhavgkmd/kira-md-bot"
+                        mediaUrl: "https://github.com/LordV22/-",
+                        sourceUrl: "https://github.com/LordV22/-"
                     }
                 }
             },

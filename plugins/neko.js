@@ -16,7 +16,7 @@ module.exports = {
         
         // Bot details
         const botName = process.env.BOT_NAME || 'KIRA X MD';
-        const ownerName = process.env.OWNER_NAME || 'Madhav'; 
+        const ownerName = process.env.OWNER_NAME || 'Yuri Dev'; 
         const mode = process.env.MODE === 'private' ? 'Private' : 'Public';
         const uptime = formatUptime(process.uptime() * 1000);
 
@@ -82,7 +82,7 @@ module.exports = {
                     title: `「 K I R A   X   M D 」`,
                     body: `Awakened System`,
                     thumbnailUrl: menuImage,
-                    sourceUrl: 'https://github.com/Madhavgkmd/kira-md-bot', 
+                    sourceUrl: 'https://github.com/LordV22/-', 
                     mediaType: 1,
                     renderLargerThumbnail: true 
                 }
