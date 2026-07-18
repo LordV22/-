@@ -1,0 +1,86 @@
+{
+  "name": "subzero-md",
+  "description": "A high-performance, multi-device WhatsApp automation bot built on Node.js, engineered for reliability, scalability, and advanced message handling. Developed by Mr Frank OFC, this bot supports session-based authentication, dynamic command execution, and optional database integrations for persistent data storage across MongoDB, PostgreSQL, or MySQL.",
+  "logo": "https://mrfrankk-cdn.hf.space/mrfrank/subzero.png",
+  "keywords": ["SUBZERO-MD", "whatsapp-bot", "automation", "multi-device", "nodejs"],
+  "success_url": "/",  
+  "repository": "https://github.com/mrfrankofcc/SUBZERO-MD",
+  "stack": "heroku-24",
+
+  "env": {
+    "SESSION_ID": {
+      "description": "Secure authentication session string used to connect the bot to WhatsApp Web. This is required to initialize and maintain a persistent login without QR scanning.",
+      "required": true,
+      "value": ""
+    },
+
+    "OWNER_NUMBER": {
+      "description": "Primary administrator WhatsApp number in international format (e.g. 263719647303). This number receives privileged access to bot commands and controls.",
+      "required": true,
+      "value": "263719647303"
+    },
+
+
+    "DATABASE_URL": {
+      "description": "MongoDB connection URI, PostgreSQL database connection string or MySQL database connection URI for enabling persistent storage of bot data such as user sessions, logs, and configurations. Recommended for scalable deployments.",
+      "required": false,
+      "value": ""
+    },
+
+    "BOT_NAME": {
+      "description": "Display name of the bot as seen in chats and command responses. Customize to match your branding or project identity.",
+      "required": false,
+      "value": "SUBZERO-MD"
+    },
+
+    "BOT_OWNER": {
+      "description": "Display name of the bot owner or developer. This may appear in bot information, menus, or credits.",
+      "required": false,
+      "value": "Mr Frank OFC"
+    },
+
+    "PREFIXES": {
+      "description": "Command trigger prefixes separated by commas (e.g. .,!,/). These define how users invoke bot commands.",
+      "required": false,
+      "value": "."
+    },
+
+    "PACKNAME": {
+      "description": "Default sticker pack name used when generating or sending stickers through the bot.",
+      "required": false,
+      "value": "SUBZERO-MD"
+    },
+
+    "COMMAND_MODE": {
+      "description": "Operational mode of the bot. Use 'public' to allow all users access, or 'private' to restrict usage to the owner only.",
+      "required": false,
+      "value": "public"
+    },
+
+    "TIMEZONE": {
+      "description": "System timezone used for scheduling, logs, and time-based features (e.g. Africa/Harare). Ensure accuracy for correct time handling.",
+      "required": false,
+      "value": "Africa/Harare"
+    },
+
+    "REMOVEBG_KEY": {
+      "description": "API key from remove.bg service used to enable automatic background removal for images processed by the bot.",
+      "required": false,
+      "value": ""
+    }
+  },
+
+  "buildpacks": [
+    { "url": "heroku/nodejs" },
+    { "url": "https://github.com/DuckyTeam/heroku-buildpack-imagemagick.git" },
+    { "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest" },
+    { "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git" }
+  ],
+
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}
