@@ -12,7 +12,7 @@ module.exports = {
             const sender = msg.key.fromMe ? sock.user.id.split(':') + '@s.whatsapp.net' : msg.key.participant || msg.key.remoteJid;
             const ownerNum = global.ownerNumber;
 
-            if (!msg.key.fromMe && sender !== ownerNum) {
+            if (!msg.key.fromMe && normalizedSender !== ownerNum) {
                 return await sock.sendMessage(jid, { text: "❌ *Restricted to Bot Owner!*" }, { quoted: msg });
             }
             await sock.sendMessage(jid, { text: "🔄 *Restarting Bot...*" }, { quoted: msg });

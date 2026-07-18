@@ -43,10 +43,12 @@ module.exports = {
     async execute(sock, msg, args) {
         const jid = msg.key.remoteJid;
         const sender = msg.key.participant || jid;
+        const normalizeJid = (jid) => jid ? jid.replace(/[:.].*$/, '') + '@s.whatsapp.net' : '';
+        const normalizedSender = normalizeJid(sender);
         const ownerNumber = global.ownerNumber;
 
         // Only owner can use AFK
-        if (sender !== ownerNumber) {
+        if (normalizedSender !== ownerNumber) {
             await sock.sendMessage(jid, { text: "❌ *Only the bot owner can use AFK mode.*" }, { quoted: msg });
             return;
         }

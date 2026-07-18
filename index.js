@@ -235,11 +235,14 @@ async function startAkira() {
             const sender = msg.key.fromMe
                 ? sock.user.id.split(":")[0] + "@s.whatsapp.net"
                 : (msg.participant || jid);
-            let isOwner = sender === global.ownerNumber;
-            const isSudo = global.sudoUsers?.includes(sender);
+            // Normalize sender JID: remove device suffix (.0, .1, :0, etc.)
+            const normalizeJid = (jid) => jid ? jid.replace(/[:.].*$/, '') + '@s.whatsapp.net' : '';
+            const normalizedSender = normalizeJid(sender);
+            let isOwner = normalizedSender === global.ownerNumber;
+            const isSudo = global.sudoUsers?.includes(normalizedSender);
             if (!isOwner && !isSudo && global.ownerNumber) {
                 const ownerNum = global.ownerNumber.split('@')[0];
-                const senderNum = sender.split('@')[0];
+                const senderNum = normalizedSender.split('@')[0];
                 if (senderNum === ownerNum || senderNum.endsWith(ownerNum) || ownerNum.endsWith(senderNum)) {
                     isOwner = true;
                 }
