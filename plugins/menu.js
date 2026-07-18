@@ -20,7 +20,7 @@ module.exports = {
         const commands = global.commands || [];
         const categories = {};
 
-        // Mapa de tradução das categorias para português
+        // Tradução das categorias
         const catTranslation = {
             "AI": "🤖 INTELIGÊNCIA ARTIFICIAL",
             "ANIME": "🎌 ANIME",
@@ -46,32 +46,32 @@ module.exports = {
             const catRaw = (cmd.category || "outros").toUpperCase();
             const cat = catTranslation[catRaw] || catRaw;
             if (!categories[cat]) categories[cat] = [];
-            categories[cat].push(`${prefix}${cmd.name}`);
+            categories[cat].push(`✦ ${prefix}${cmd.name}`);
         }
 
-        let menu = `
-╭──────────────────────
-│      ✦ 𝑨𝑲𝑰𝑹𝑨 𝑩𝑶𝑻 ✦
-├──────────────────────
-│ 👤 Usuário : ${pushname}
-│ 🎯 Prefixo : ${prefix}
-│ 🔧 Desenvolvido : 𝒀𝒖𝒓𝒊 𝑫𝒆𝒗 ✦
-│ ⏰ Uptime  : ${uptimeText}
-│ 📦 Plugins : ${commands.length}
-╰──────────────────────
-`;
+        // Menu tema roxo neon 💜
+        let menu = `💜✨ *𝗔𝗞𝗜𝗥𝗔 𝗕𝗢𝗧* ✨💜
+╔══════════════════════════╗
+║ 👤 *Usuário* : ${pushname}
+║ 🎯 *Prefixo* : ${prefix}
+║ 🔧 *Dev* : 𝒀𝒖𝒓𝒊 𝑫𝒆𝒗 ✦
+║ ⏰ *Uptime* : ${uptimeText}
+║ 📦 *Plugins* : ${commands.length}
+╚══════════════════════════╝`;
 
         for (const category of Object.keys(categories).sort()) {
-            menu += `\n┌─ ${category}\n`;
+            menu += `\n\n💜🟣 *${category}* 🟣💜`;
+            menu += `\n┌──────────────────────────┐`;
             for (const cmd of categories[category]) {
-                menu += `│ ${cmd}\n`;
+                menu += `\n│ ${cmd}`;
             }
-            menu += `└────────────────`;
+            menu += `\n└──────────────────────────┘`;
         }
 
-        menu += `\n\n━━━━━━━━━━━━━━━━━━━━━━\n      ✦ 𝑨𝒌𝒊𝒓𝒂 𝑩𝒐𝒕 ✦ 𝒀𝒖𝒓𝒊 𝑫𝒆𝒗\n━━━━━━━━━━━━━━━━━━━━━━`;
+        menu += `\n\n💜✨ *𝗔𝗸𝗶𝗿𝗮 𝗕𝗼𝘁* ✦ *𝗬𝘂𝗿𝗶 𝗗𝗲𝘃* ✨💜
+════════════════════════════`;
 
-        // Verificar se tem imagem salva localmente pelo /setimagem
+        // Verificar se tem imagem salva
         const localImagePath = path.join(__dirname, '..', 'media', 'menu-image.jpg');
         if (fs.existsSync(localImagePath)) {
             await sock.sendMessage(jid, {
