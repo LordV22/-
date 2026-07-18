@@ -237,15 +237,14 @@ async function startKira() {
                 : (msg.participant || jid);
             let isOwner = sender === global.ownerNumber;
             const isSudo = global.sudoUsers?.includes(sender);
-            let isOwnerOrSudo = isOwner || isSudo;
-            if (!isOwnerOrSudo && global.ownerNumber) {
+            if (!isOwner && !isSudo && global.ownerNumber) {
                 const ownerNum = global.ownerNumber.split('@')[0];
                 const senderNum = sender.split('@')[0];
-                if (senderNum.includes(ownerNum) || ownerNum.includes(senderNum)) {
-                    isOwnerOrSudo = true;
+                if (senderNum === ownerNum || senderNum.endsWith(ownerNum) || ownerNum.endsWith(senderNum)) {
                     isOwner = true;
                 }
             }
+            const isOwnerOrSudo = isOwner || isSudo;
 
             const text =
                 msg.message?.conversation ||
