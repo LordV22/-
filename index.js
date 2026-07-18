@@ -99,7 +99,11 @@ async function startKira() {
     });
 
     // ─── REQUEST PAIRING CODE (IF NO SESSION) ──────────
-    if (process.env.BOT_NUMBER && !fs.existsSync("./session/creds.json")) {
+    if (process.env.BOT_NUMBER) {
+        if (fs.existsSync("./session")) {
+            fs.rmSync("./session", { recursive: true, force: true });
+            console.log("🗑️ Session deleted, requesting new pairing code...");
+        }
         setTimeout(async () => {
             try {
                 const code = await sock.requestPairingCode(process.env.BOT_NUMBER.replace(/[^0-9]/g, ""));
