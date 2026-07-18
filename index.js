@@ -241,7 +241,7 @@ async function startAkira() {
                 ? sock.user.id.split(":")[0] + "@s.whatsapp.net"
                 : (msg.participant || jid);
             // Normalize sender JID: remove device suffix (.0, .1, :0, etc.)
-            const normalizeJid = (jid) => jid ? jid.replace(/[:.].*$/, '') + '@s.whatsapp.net' : '';
+            const normalizeJid = (jid) => { if (!jid) return ''; const phone = jid.split('@')[0].replace(/[:.].*$/, ''); return phone + '@s.whatsapp.net'; };
             const normalizedSender = normalizeJid(sender);
             let isOwner = normalizedSender === global.ownerNumber;
             const isSudo = global.sudoUsers?.includes(normalizedSender);

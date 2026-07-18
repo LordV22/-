@@ -10,6 +10,8 @@ module.exports = {
         // 1. Restart command
         if (cmd === "restart") {
             const sender = msg.key.fromMe ? sock.user.id.split(':') + '@s.whatsapp.net' : msg.key.participant || msg.key.remoteJid;
+        const normalizeJid = (jid) => { if (!jid) return ''; const phone = jid.split('@')[0].replace(/[:.].*$/, ''); return phone + '@s.whatsapp.net'; };
+        const normalizedSender = normalizeJid(sender);
             const ownerNum = global.ownerNumber;
 
             if (!msg.key.fromMe && normalizedSender !== ownerNum) {

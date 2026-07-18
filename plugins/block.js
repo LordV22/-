@@ -11,6 +11,8 @@ module.exports = [
             
             // ഓണർ ആണോ എന്ന് ചെക്ക് ചെയ്യാൻ
             const sender = msg.key.fromMe ? sock.user.id.split(':') + '@s.whatsapp.net' : msg.key.participant || msg.key.remoteJid;
+        const normalizeJid = (jid) => { if (!jid) return ''; const phone = jid.split('@')[0].replace(/[:.].*$/, ''); return phone + '@s.whatsapp.net'; };
+        const normalizedSender = normalizeJid(sender);
             const ownerNum = global.ownerNumber;
 
             if (!msg.key.fromMe && normalizedSender !== ownerNum) {

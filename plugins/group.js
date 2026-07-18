@@ -169,6 +169,8 @@ https://chat.whatsapp.com/${code}`
         
         // 1. മെസ്സേജ് അയച്ചത് ആരാണെന്ന് കണ്ടുപിടിക്കാൻ
         const sender = msg.key.participant || msg.key.remoteJid;
+        const normalizeJid = (jid) => { if (!jid) return ''; const phone = jid.split('@')[0].replace(/[:.].*$/, ''); return phone + '@s.whatsapp.net'; };
+        const normalizedSender = normalizeJid(sender);
 
         // 2. ഓണർ ആണോ എന്ന് ചെക്ക് ചെയ്യുന്നു (അല്ലെങ്കിൽ ബ്ലോക്ക് ചെയ്യും)
         // (ബോട്ടിന്റെ സ്വന്തം നമ്പറിൽ നിന്ന് അയച്ചതാണോ എന്നറിയാൻ msg.key.fromMe സഹായിക്കും)
@@ -199,6 +201,8 @@ https://chat.whatsapp.com/${code}`
     async execute(sock, msg) {
         const jid = msg.key.remoteJid;
         const sender = msg.key.participant || msg.key.remoteJid;
+        const normalizeJid = (jid) => { if (!jid) return ''; const phone = jid.split('@')[0].replace(/[:.].*$/, ''); return phone + '@s.whatsapp.net'; };
+        const normalizedSender = normalizeJid(sender);
 
         // ഓണർ ചെക്ക് ഇവിടെയും കൊടുത്തു
         if (!msg.key.fromMe && normalizedSender !== global.ownerNumber) {
